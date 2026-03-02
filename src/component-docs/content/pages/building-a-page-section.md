@@ -19,11 +19,16 @@ import CustomSection from '@builders/custom-section/CustomSection.astro';
 import Heading from '@core-elements/heading/Heading.astro';
 import Text from '@core-elements/text/Text.astro';
 
-const { heading = '', subtext = '', _component, ...rest } = Astro.props;
+const { heading = '', subtext = '', _component, editable = true, ...htmlAttributes } = Astro.props;
 ---
 
-<CustomSection maxContentWidth="md" paddingVertical="4xl" {...rest}>
-  <Heading level="h2" size="lg" alignX="center" data-prop="heading" text={heading} />
+<CustomSection
+  maxContentWidth="xl"
+  paddingHorizontal="lg"
+  paddingVertical="4xl"
+  {...htmlAttributes}
+>
+  <Heading level="h1" size="2xl" alignX="center" data-prop="heading" text={heading} />
   <Text alignX="center" data-prop="subtext" text={subtext} />
 </CustomSection>
 ```
@@ -83,7 +88,7 @@ src/components/page-sections/info-blocks/section-intro/
 └── section-intro.cloudcannon.structure-value.yml
 ```
 
-Add it to a page in code:
+Open `/src/content/pages/index.md and add the component under the pageSections array:
 
 ```yaml
 pageSections:
