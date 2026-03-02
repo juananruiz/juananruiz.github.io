@@ -9,7 +9,7 @@ The design is intentionally unbranded so it can morph into any brand you want. C
 ## Quick Start
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/CloudCannon/astro-component-starter
 cd astro-component-starter
 npm install
 npm run dev
