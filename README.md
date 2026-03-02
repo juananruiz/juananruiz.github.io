@@ -50,18 +50,13 @@ src/
 └── component-docs/   # Built-in docs (can be excluded from production builds)
 ```
 
-## Available Scripts
+## Dev and Build Commands
 
-| Command                    | Description                      |
-| -------------------------- | -------------------------------- |
-| `npm run dev`              | Start the development server     |
-| `npm run build`            | Build for production             |
-| `npm run build:no-library` | Build without the component docs |
-| `npm run preview`          | Preview the production build     |
-| `npm run lint`             | Run all linters (JS, CSS, YML)   |
-| `npm run lint:fix`         | Auto-fix linting issues          |
-| `npm run format`           | Check formatting                 |
-| `npm run format:fix`       | Auto-fix formatting              |
+| Command                      | Description                                       |
+| ---------------------------- | ------------------------------------------------- |
+| `npm run dev`                | Start the development server                      |
+| `npm run build`              | Build for production (component docs excluded)    |
+| `npm run build:with-library` | Build for production with component docs included |
 
 ## Prerequisites
 
