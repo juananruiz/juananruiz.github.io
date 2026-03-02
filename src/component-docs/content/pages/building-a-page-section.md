@@ -11,7 +11,7 @@ Three files. That's all it takes.
 
 ## File 1: The Astro component
 
-Create `src/components/page-sections/info-blocks/info-block/InfoBlock.astro`:
+Create `src/components/page-sections/info-blocks/section-intro/SectionIntro.astro`:
 
 ```astro
 ---
@@ -32,7 +32,7 @@ That's it. `CustomSection` handles padding and width. `Heading` and `Text` are e
 
 ## File 2: The inputs config
 
-Create `info-block.cloudcannon.inputs.yml` in the same folder:
+Create `section-intro.cloudcannon.inputs.yml` in the same folder:
 
 ```yaml
 heading:
@@ -47,27 +47,27 @@ Each key matches a prop from the component. The `type` controls what kind of inp
 
 ## File 3: The structure-value config
 
-Create `info-block.cloudcannon.structure-value.yml` in the same folder:
+Create `section-intro.cloudcannon.structure-value.yml` in the same folder:
 
 ```yaml
-label: Info Block
+label: Section Intro
 icon: info
 description: Centered section with a headline and supporting text.
 value:
-  _component: page-sections/info-blocks/info-block
+  _component: page-sections/info-blocks/section-intro
   heading: Your heading here
   subtext: Add some supporting text.
 preview:
   text:
-    - Info Block
+    - Section Intro
   subtext:
     - key: heading
   icon: info
 picker_preview:
-  text: Info Block
+  text: Section Intro
   subtext: Centered section with a headline and supporting text.
 _inputs_from_glob:
-  - /src/components/page-sections/info-blocks/info-block/info-block.cloudcannon.inputs.yml
+  - /src/components/page-sections/info-blocks/section-intro/section-intro.cloudcannon.inputs.yml
 ```
 
 The `value` block defines the defaults when an editor adds this component. The `_component` path must match where the component lives. The `_inputs_from_glob` points to your inputs file.
@@ -77,22 +77,22 @@ The `value` block defines the defaults when an editor adds this component. The `
 That's three files:
 
 ```
-src/components/page-sections/info-blocks/info-block/
-├── InfoBlock.astro
-├── info-block.cloudcannon.inputs.yml
-└── info-block.cloudcannon.structure-value.yml
+src/components/page-sections/info-blocks/section-intro/
+├── SectionIntro.astro
+├── section-intro.cloudcannon.inputs.yml
+└── section-intro.cloudcannon.structure-value.yml
 ```
 
 Add it to a page in code:
 
 ```yaml
 pageSections:
-  - _component: page-sections/info-blocks/info-block
+  - _component: page-sections/info-blocks/section-intro
     heading: Ready to get started?
     subtext: Everything you need is right here.
 ```
 
-Or add it in CloudCannon by clicking "Add Page Section" and picking "Info Block" from the list.
+Or add it in CloudCannon by clicking "Add Page Section" and picking "Section Intro" from the list.
 
 ## Build it with Component Builder
 
@@ -101,14 +101,14 @@ Prefer visual composition over hand-writing files? Use the [Component Builder](/
 1. Open the Component Builder and choose your building blocks (for example, Heading + Text inside a section wrapper).
 2. Configure labels and default content so the section is clear in the CloudCannon picker.
 3. Export the generated package.
-4. Move the exported files into the matching directory under `src/components/` (e.g. `src/components/page-sections/info-blocks/info-block/`).
+4. Move the exported files into the matching directory under `src/components/` (e.g. `src/components/page-sections/info-blocks/section-intro/`).
 5. Confirm the `_component` path in the generated structure-value file matches the folder path.
 
 After that, add the section in CloudCannon from "Add Page Section" just like any hand-built component.
 
 ## Choosing how much control editors get
 
-The InfoBlock above is a **structured component** — it has a fixed layout with specific props. That's one end of a spectrum. At the other end is giving editors complete freedom to compose their own layouts. Most real projects use a mix of both, and there's a useful middle ground too.
+The SectionIntro above is a **structured component** — it has a fixed layout with specific props. That's one end of a spectrum. At the other end is giving editors complete freedom to compose their own layouts. Most real projects use a mix of both, and there's a useful middle ground too.
 
 ### Structured components: developer controls the layout
 
