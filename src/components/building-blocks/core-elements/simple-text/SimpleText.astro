@@ -26,8 +26,7 @@ const textDataAttributes =
     : {};
 
 const hasText = text?.trim().length > 0;
-const slotContent = Astro.slots.has("default") ? await Astro.slots.render("default") : null;
-const hasSlotContent = (slotContent?.toString().trim().length ?? 0) > 0;
+const hasSlotContent = Astro.slots.has("default");
 
 if (!_component && !hasText && !hasSlotContent) return;
 ---
@@ -35,14 +34,15 @@ if (!_component && !hasText && !hasSlotContent) return;
 <p
   class:list={["simple-text", size && `size-${size}`, `align-${alignX}`, className]}
   {...htmlAttributes}
-  {...textDataAttributes}
 >
-  <slot>
-    {text && <Fragment set:html={MarkdownText} />}
-  </slot>
+  <span class="simple-text-inner" {...textDataAttributes}>
+    <slot>
+      {text && <Fragment set:html={MarkdownText} />}
+    </slot>
+  </span>
 </p>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     .simple-text {
       margin-top: var(--spacing-lg);

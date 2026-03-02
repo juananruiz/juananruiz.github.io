@@ -44,6 +44,7 @@ const {
 } = Astro.props;
 
 const hasValidSrc = source && typeof source === "string" && source.trim() !== "";
+
 if (!_component && !hasValidSrc) {
   return;
 }
@@ -104,6 +105,7 @@ if (
 
     if (targetAspect === 1 && imageHeight) {
       const dimension = Math.min(imageWidth, imageHeight);
+
       maxWidth = dimension;
       maxHeight = dimension;
     } else if (imageHeight) {
@@ -127,6 +129,7 @@ if (
     useFit = "cover";
 
     const positionKey = `${positionVertical}-${positionHorizontal}`;
+
     usePosition = POSITION_MAP[positionKey] || "center";
   }
 }
@@ -162,9 +165,8 @@ if (
         {...dataAttributes}
       />
     ) : (
-      <picture>
+      <picture {...dataAttributes}>
         <img
-          {...dataAttributes}
           src={source}
           alt={normalizedAlt}
           loading={priority ? "eager" : "lazy"}
@@ -178,12 +180,12 @@ if (
   }
 </div>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     .image {
       display: block;
-      overflow: hidden;
       margin-top: var(--spacing-lg);
+      overflow: hidden;
 
       &.ratio-square {
         aspect-ratio: var(--ratio-square);
@@ -219,8 +221,8 @@ if (
 
       &.background {
         inset: 0;
-        position: absolute;
         margin-top: 0;
+        position: absolute;
 
         > picture {
           height: 100%;

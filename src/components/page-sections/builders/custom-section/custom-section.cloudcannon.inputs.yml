@@ -74,10 +74,10 @@ colorScheme:
     values:
       - id: inherit
         name: Inherit
-      - id: default
-        name: Default
-      - id: contrast
-        name: Contrast
+      - id: light
+        name: Light
+      - id: dark
+        name: Dark
 backgroundColor:
   type: select
   comment: Background color for the custom section.
@@ -145,4 +145,7 @@ backgroundImage.positionHorizontal:
 rounded:
   type: switch
   comment: Whether to apply rounded corners to the custom section.
-
+editable:
+  type: switch
+  comment: Whether the custom section is editable.
+  hidden: true

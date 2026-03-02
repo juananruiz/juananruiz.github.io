@@ -5,7 +5,8 @@ import SimpleText from "@core-elements/simple-text/SimpleText.astro";
 import Text from "@core-elements/text/Text.astro";
 import FeatureItem from "@features/feature-grid/FeatureItem.astro";
 import Grid from "@wrappers/grid/Grid.astro";
-import GridItem from "@wrappers/grid/GridItem.astro";
+
+type FeatureProps = Record<string, unknown>;
 
 const {
   eyebrow = "",
@@ -15,6 +16,7 @@ const {
   colorScheme = "inherit",
   backgroundColor,
   paddingVertical = "4xl",
+  editable = true,
   class: className,
   _component,
   ...htmlAttributes
@@ -30,9 +32,7 @@ const {
   backgroundColor={backgroundColor}
   {...htmlAttributes}
 >
-  <SimpleText alignX="center" class="eyebrow" data-prop="eyebrow">
-    {eyebrow}
-  </SimpleText>
+  <SimpleText alignX="center" class="eyebrow" data-prop="eyebrow" text={eyebrow} />
   <Heading level="h2" size="lg" alignX="center" data-prop="heading">
     {heading}
   </Heading>
@@ -41,22 +41,23 @@ const {
     gap="lg"
     minItemWidth="360"
     maxItemWidth="360"
-    data-prop="features"
     class="feature-grid-grid"
+    data-children-prop="features"
+    editable={true}
   >
     {
-      features.map((feature: any, index: number) => (
-        <GridItem>
-          <editable-array-item data-component="page-sections/features/feature-grid/feature-item">
-            <FeatureItem {...feature} class="feature-grid-item" data-index={index} />
-          </editable-array-item>
-        </GridItem>
+      features.map((feature: FeatureProps) => (
+        <FeatureItem
+          data-id="page-sections/features/feature-grid/feature-item"
+          data-editable="array-item"
+          {...feature}
+        />
       ))
     }
   </Grid>
 </CustomSection>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer page-sections {
     .feature-grid-grid {
       margin-top: var(--spacing-2xl);

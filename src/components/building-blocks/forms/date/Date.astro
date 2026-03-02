@@ -1,5 +1,15 @@
 ---
-const { label, name, required = false, value, min, max, class: className, _component, ...htmlAttributes } = Astro.props;
+const {
+  label,
+  name,
+  required = false,
+  value,
+  min,
+  max,
+  class: className,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
 
 const fieldId = htmlAttributes.id || `date-${crypto.randomUUID()}`;
 ---
@@ -31,18 +41,18 @@ const fieldId = htmlAttributes.id || `date-${crypto.randomUUID()}`;
   />
 </div>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     .date {
       display: flex;
       flex-direction: column;
       gap: var(--spacing-xs);
-      width: 100%;
       margin: 0;
       margin-bottom: var(--spacing-md);
+      width: 100%;
 
       .date-required {
-        color: red;
+        color: var(--color-error);
         margin-inline-end: var(--spacing-em-xs);
       }
     }

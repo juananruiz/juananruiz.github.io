@@ -1,10 +1,12 @@
 ---
 import Footer from "@components/navigation/footer/Footer.astro";
 import MainNavigation from "@components/navigation/main-nav/MainNav.astro";
-import Components from "@components/utils/renderBlock.astro";
+import MainComponent from "@components/utils/MainComponent.astro";
 import footerData from "@data/footer.json";
 import mainNavData from "@data/mainNav.json";
 import Layout from "@layouts/BaseLayout.astro";
+
+import type { ContentBlock } from "../types";
 
 type Props = {
   frontmatter?: {
@@ -13,15 +15,15 @@ type Props = {
     keywords?: string[];
     image?: string;
     canonical?: string;
-    pageSections?: any[];
+    pageSections?: ContentBlock[];
   };
   title?: string;
   description?: string;
   keywords?: string[];
   image?: string;
   canonical?: string;
-  mainNav?: Record<string, any>;
-  footer?: Record<string, any>;
+  mainNav?: Record<string, unknown>;
+  footer?: Record<string, unknown>;
 };
 
 const {
@@ -40,9 +42,7 @@ const description = frontmatter?.description ?? descriptionProp;
 const keywords = frontmatter?.keywords ?? keywordsProp;
 const image = frontmatter?.image ?? imageProp;
 const canonical = frontmatter?.canonical ?? canonicalProp;
-const pageSections = frontmatter?.pageSections;
-const hasPageSections = pageSections && pageSections.length > 0;
-const hasSlotContent = Astro.slots.has("default");
+const sections = frontmatter?.pageSections ?? [];
 ---
 
 <Layout
@@ -53,14 +53,20 @@ const hasSlotContent = Astro.slots.has("default");
   canonical={canonical}
 >
   <MainNavigation {...mainNav} />
-  <main data-pagefind-body>
+
+  <main>
     {
-      hasPageSections ? (
-        <Components contentSections={pageSections} propName="pageSections" />
-      ) : hasSlotContent ? (
-        <slot />
-      ) : null
+      sections.length > 0 && (
+        <div
+          data-editable="component"
+          data-component="utils/main-component"
+          data-prop-sections="pageSections"
+        >
+          <MainComponent sections={sections} />
+        </div>
+      )
     }
+    <slot />
   </main>
   <Footer {...footer} />
 </Layout>

@@ -4,7 +4,8 @@ import Heading from "@core-elements/heading/Heading.astro";
 import SimpleText from "@core-elements/simple-text/SimpleText.astro";
 import TeamItem from "@page-sections/people/team-grid/TeamItem.astro";
 import Grid from "@wrappers/grid/Grid.astro";
-import GridItem from "@wrappers/grid/GridItem.astro";
+
+type MemberProps = Record<string, unknown>;
 
 const {
   eyebrow = "",
@@ -14,7 +15,10 @@ const {
   colorScheme = "inherit",
   backgroundColor,
   paddingVertical = "4xl",
+  _component,
+  editable = true,
   class: className,
+  ...htmlAttributes
 } = Astro.props;
 ---
 
@@ -25,37 +29,42 @@ const {
   paddingVertical={paddingVertical}
   colorScheme={colorScheme}
   backgroundColor={backgroundColor}
+  {...htmlAttributes}
 >
-  <SimpleText alignX="center" class="eyebrow" data-prop="eyebrow">
-    {eyebrow}
-  </SimpleText>
+  <SimpleText alignX="center" class="eyebrow" data-prop="eyebrow" text={eyebrow} />
   <Heading class="team-grid-heading" level="h2" size="lg" alignX="center" data-prop="heading">
     {heading}
   </Heading>
-  <SimpleText class="team-grid-subtext" size="md" alignX="center" data-prop="subtext">
-    {subtext}
-  </SimpleText>
+  <SimpleText
+    class="team-grid-subtext"
+    size="md"
+    alignX="center"
+    data-prop="subtext"
+    text={subtext}
+  />
   <Grid
     class="team-grid-grid"
     gap="md"
     minItemWidth={260}
     maxItemWidth={400}
-    data-prop="teamMembers"
+    data-children-prop="teamMembers"
     layout="start"
+    editable={true}
   >
     {
-      teamMembers.map((member: any, index: number) => (
-        <GridItem>
-          <editable-array-item data-component="page-sections/people/team-grid/team-item">
-            <TeamItem {...member} class="team-grid-item" data-index={index} />
-          </editable-array-item>
-        </GridItem>
+      teamMembers.map((member: MemberProps) => (
+        <TeamItem
+          data-id="page-sections/people/team-grid/team-item"
+          data-editable="array-item"
+          {...member}
+          class="team-grid-item"
+        />
       ))
     }
   </Grid>
 </CustomSection>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer page-sections {
     .team-grid-heading {
       margin-bottom: var(--spacing-sm);

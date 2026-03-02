@@ -82,10 +82,10 @@ colorScheme:
     values:
       - id: inherit
         name: Inherit
-      - id: default
-        name: Default
-      - id: contrast
-        name: Contrast
+      - id: light
+        name: Light
+      - id: dark
+        name: Dark
 backgroundColor:
   type: select
   comment: Background color for the card.
@@ -159,4 +159,3 @@ rounded:
 border:
   type: switch
   comment: Whether to apply a border to the card.
-

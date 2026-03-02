@@ -15,12 +15,12 @@ pageSections:
       sites with CloudCannon, we wanted to help out by providing the foundations
       for Astro components that output static HTML and CSS, for the fastest
       delivery possible —&nbsp;all unbranded and adaptable for any project.
-    imageSource: /src/assets/images/component-library/sunset.jpg
+    imageSource: /src/assets/images/component-docs/sunset.jpg
     imageAlt: Sunset
     imageAspectRatio: portrait
     buttonSections: []
     reverse: true
-    colorScheme: default
+    colorScheme: light
     backgroundColor: base
     paddingVertical: 4xl
   - _component: page-sections/info-blocks/faq-section
@@ -35,7 +35,7 @@ pageSections:
         contentSections:
           - _component: building-blocks/core-elements/text
             text: >-
-              We give you [straightforward building blocks](/component-library/)
+              We give you [straightforward building blocks](/component-docs/)
               without hiding anything behind layers of abstraction. You see
               everything that's happening, and stay in control.
       - _component: building-blocks/wrappers/accordion/accordion-item
@@ -62,14 +62,14 @@ pageSections:
               Every part of the Component Starter is meant to be opened, read,
               and edited. You shape it to fit your project instead of working
               around someone else's opinions. Start by [browsing the
-              components](/component-library/) to see how they're set up!
+              components](/component-docs/) to see how they're set up!
     maxContentWidth: xl
     paddingHorizontal: xl
     paddingVertical: 4xl
-    colorScheme: default
+    colorScheme: light
     backgroundColor: none
   - _component: page-sections/builders/custom-section
-    label: ""
+    label: ''
     contentSections:
       - _component: building-blocks/core-elements/spacer
         size: md
@@ -88,11 +88,11 @@ pageSections:
     maxContentWidth: 2xl
     paddingHorizontal: md
     paddingVertical: md
-    colorScheme: contrast
+    colorScheme: dark
     backgroundColor: surface
     backgroundImage:
-      source: ""
-      alt: ""
+      source: ''
+      alt: ''
       positionVertical: top
       positionHorizontal: center
     rounded: false
@@ -107,7 +107,7 @@ pageSections:
           headline, and body copy creating clear visual distinction. The
           component is designed to guide users through multiple messages without
           overwhelming the page.
-        imageSource: /src/assets/images/component-library/quiet-street.jpg
+        imageSource: /src/assets/images/component-docs/quiet-street.jpg
         imageAlt: High Performance
         minSplitWidth: 0
       - _component: page-sections/features/feature-slider/feature-slider-item
@@ -119,7 +119,7 @@ pageSections:
           controls below allow users to move at their own pace. This slide
           exists purely to demonstrate the component's ability to handle
           sequential content delivery.
-        imageSource: /src/assets/images/component-library/sheep.jpg
+        imageSource: /src/assets/images/component-docs/sheep.jpg
         imageAlt: Easy Maintenance
         minSplitWidth: 0
       - _component: page-sections/features/feature-slider/feature-slider-item
@@ -130,7 +130,7 @@ pageSections:
           the same structural hierarchy and spacing, ensuring visual coherence
           throughout the carousel. This consistency helps users understand what
           to expect as they progress through the available content.
-        imageSource: /src/assets/images/component-library/castle.jpg
+        imageSource: /src/assets/images/component-docs/castle.jpg
         imageAlt: Move Faster
         minSplitWidth: 300
       - _component: page-sections/features/feature-slider/feature-slider-item
@@ -142,10 +142,10 @@ pageSections:
           pause here to absorb the information. The carousel has now
           successfully shown its capacity to present multiple content blocks in
           a compact, navigable format.
-        imageSource: /src/assets/images/component-library/dunedin-cliff.jpg
+        imageSource: /src/assets/images/component-docs/dunedin-cliff.jpg
         imageAlt: Long-Term Stability
         minSplitWidth: 0
-    colorScheme: contrast
+    colorScheme: dark
     backgroundColor: surface
     eyebrow: Why Carousel
     heading: Why this approach works
@@ -157,12 +157,12 @@ pageSections:
       quotations on Astro sites. I couldn't be happier with the results.
     authorName: John Convincingname
     authorDescription: Founder
-    authorImage: /src/assets/images/component-library/profile.jpg
+    authorImage: /src/assets/images/component-docs/profile.jpg
     alignX: center
     maxContentWidth: xl
     paddingHorizontal: xl
     paddingVertical: 2xl
-    colorScheme: contrast
+    colorScheme: dark
     backgroundColor: surface
   - _component: page-sections/people/team-grid
     eyebrow: Our Team
@@ -170,14 +170,14 @@ pageSections:
     subtext: We're a group of stock photography faces that fill out this team grid.
     teamMembers:
       - _component: page-sections/people/team-grid/team-item
-        name: "Alex Smith "
+        name: Alex Smith
         role: Lead Developer
         bio: >-
           As a fictional representation of a real employee, I exist solely to
           demonstrate how profile information appears in this layout. My
           headshot is perfectly lit, and my description maintains the ideal
           length for this component.
-        imageSource: /src/assets/images/component-library/profile1.jpg
+        imageSource: /src/assets/images/component-docs/profile1.jpg
         imageAlt: Alex Smith, CEO
       - _component: page-sections/people/team-grid/team-item
         name: Tom Rodriguez
@@ -186,7 +186,7 @@ pageSections:
           I'm here to show how multiple team members look when displayed
           together. My expertise includes being professionally photographed and
           having exactly two sentences of biographical text.
-        imageSource: /src/assets/images/component-library/profile2.jpg
+        imageSource: /src/assets/images/component-docs/profile2.jpg
         imageAlt: Tom Rodriguez, CTO
       - _component: page-sections/people/team-grid/team-item
         name: Helen Kim
@@ -196,7 +196,7 @@ pageSections:
           carefully crafted placeholder text ensures the layout remains
           consistent, regardless of whether you're viewing on a tablet or
           desktop display.
-        imageSource: /src/assets/images/component-library/profile3.jpg
+        imageSource: /src/assets/images/component-docs/profile3.jpg
         imageAlt: Helen Kim, Head of Design
       - _component: page-sections/people/team-grid/team-item
         name: Emily Watson
@@ -206,9 +206,9 @@ pageSections:
           fourth member. My presence here confirms that the component scales
           appropriately, maintaining visual balance across different screen
           sizes.
-        imageSource: /src/assets/images/component-library/profile4.jpg
+        imageSource: /src/assets/images/component-docs/profile4.jpg
         imageAlt: Emily Watson, Director of Operations
-    colorScheme: contrast
+    colorScheme: dark
     backgroundColor: surface
     paddingVertical: 2xl
   - _component: page-sections/ctas/cta-form
@@ -241,10 +241,10 @@ pageSections:
         iconPosition: before
         hideText: false
         disabled: false
-    imageSource: /src/assets/images/component-library/castle.jpg
+    imageSource: /src/assets/images/component-docs/castle.jpg
     imageAlt: Get in touch
     reverse: false
-    colorScheme: contrast
+    colorScheme: dark
     backgroundColor: surface
     paddingVertical: 4xl
 ---

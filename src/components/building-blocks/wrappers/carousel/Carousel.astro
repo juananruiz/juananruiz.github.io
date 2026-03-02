@@ -1,27 +1,28 @@
 ---
 import Button from "@core-elements/button/Button.astro";
 import CarouselSlide from "./CarouselSlide.astro";
+import { slugifyLabel } from "@components/utils/slugify";
+
+type SlideProps = Record<string, unknown>;
 
 const {
   slides = [],
   autoPlay = false,
   autoScroll = false,
+  showIndicators = true,
+  showArrows = true,
+  loop = true,
+  align = "center",
+  slidesToScroll = "auto",
   slideWidthPercent = 100,
   minSlideWidth = 0,
   style = "",
   label,
-  "data-prop": customDataProp = "slides",
-  editable = true,
+  "data-children-prop": childrenDataProp = "slides",
+  editable = false,
   _component,
   ...htmlAttributes
 } = Astro.props;
-
-const slugifyLabel = (label: string) => {
-  return label
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-};
 
 if (!htmlAttributes.id && label) {
   htmlAttributes.id = slugifyLabel(label);
@@ -29,24 +30,11 @@ if (!htmlAttributes.id && label) {
 
 const dataAttributes: Record<string, string> = {};
 
-// These are hardcoded variables that you could setup
-// to be configured to be set by the editor.
-
-// Shows the indicators dots.
-dataAttributes["data-show-indicators"] = "true";
-
-// Shows the navigational arrows.
-dataAttributes["data-show-arrows"] = "true";
-
-// If false, the carousel will stop at the last slide.
-dataAttributes["data-loop"] = "true";
-
-// Positions the slides in the viewport.
-dataAttributes["data-align"] = "center";
-
-// Allows the carousel to scroll a specific number of
-// slides at a time.
-dataAttributes["data-slides-to-scroll"] = "auto";
+dataAttributes["data-show-indicators"] = String(showIndicators);
+dataAttributes["data-show-arrows"] = String(showArrows);
+dataAttributes["data-loop"] = String(loop);
+dataAttributes["data-align"] = String(align);
+dataAttributes["data-slides-to-scroll"] = String(slidesToScroll);
 
 if (autoPlay) {
   dataAttributes["data-autoplay"] = "3";
@@ -58,6 +46,13 @@ if (autoScroll) {
   dataAttributes["data-show-arrows"] = "false";
 }
 
+const arrayDataAttributes = editable
+  ? {
+      "data-editable": "array",
+      "data-prop": childrenDataProp,
+    }
+  : {};
+
 const carouselClasses = "carousel";
 
 // Build the style attribute, merging custom styles with CSS variables
@@ -66,6 +61,11 @@ const carouselStyles = `
   --min-slide-width: ${minSlideWidth}px;
   ${style}
 `.trim();
+
+const hasSlides = slides?.length > 0;
+const hasSlotContent = Astro.slots.has("default");
+
+if (!_component && !hasSlides && !hasSlotContent) return;
 ---
 
 <section
@@ -77,31 +77,20 @@ const carouselStyles = `
   {...dataAttributes}
 >
   <div class="viewport">
-    <div
-      class="track"
-      {...editable
-        ? {
-            "data-editable": "array",
-            "data-component-key": "_component",
-            "data-id-key": "_component",
-            "data-prop": customDataProp,
-          }
-        : {}}
-    >
-      {
-        slides.length > 0 ? (
-          slides.map((slide: any, index: number) => (
-            <editable-array-item data-component="building-blocks/wrappers/carousel/carousel-slide">
-              <CarouselSlide
-                contentSections={slide.contentSections}
-                aria-label={`Slide ${index + 1} of ${slides.length}`}
-              />
-            </editable-array-item>
+    <div class="track" {...arrayDataAttributes}>
+      <slot>
+        {
+          slides?.map((slide: SlideProps, index: number) => (
+            <CarouselSlide
+              {...slide}
+              data-editable="array-item"
+              data-id="building-blocks/wrappers/carousel/carousel-slide"
+              editable={editable}
+              aria-label={`Slide ${index + 1} of ${slides.length}`}
+            />
           ))
-        ) : (
-          <slot />
-        )
-      }
+        }
+      </slot>
     </div>
   </div>
 
@@ -158,7 +147,11 @@ const carouselStyles = `
       const slidesToScroll = carousel.hasAttribute("data-slides-to-scroll")
         ? Number(carousel.getAttribute("data-slides-to-scroll")) || "auto"
         : "auto";
-      const align = carousel.getAttribute("data-align") || "start";
+      const alignAttr = carousel.getAttribute("data-align");
+      const align =
+        alignAttr === "start" || alignAttr === "center" || alignAttr === "end"
+          ? (alignAttr as "start" | "center" | "end")
+          : "start";
 
       const plugins = [];
       if (carousel.hasAttribute("data-autoplay")) {
@@ -246,7 +239,7 @@ const carouselStyles = `
   document.addEventListener("astro:page-load", setupCarousels);
 </script>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     .carousel {
       margin-top: var(--spacing-lg);
@@ -265,31 +258,28 @@ const carouselStyles = `
         display: flex;
         flex-wrap: nowrap;
 
-        > editable-array-item, > .slide {
-          flex-shrink: 0;
+        > .slide {
           flex-basis: calc(max(var(--slide-width, 100%), var(--min-slide-width, 0px)));
-        }
-
-        > editable-array-item > .slide {
+          flex-shrink: 0;
           width: 100%;
         }
       }
 
       > .controls-wrapper {
-        display: flex;
         align-items: center;
-        justify-content: center;
+        display: flex;
         gap: var(--spacing-md);
-        margin-top: var(--spacing-sm);
+        justify-content: center;
         margin-bottom: var(--spacing-sm);
+        margin-top: var(--spacing-sm);
       }
 
       > .controls-wrapper > .prev,
       > .controls-wrapper > .next {
-        pointer-events: auto;
-        border-radius: var(--radius-full);
         background-color: var(--color-bg);
+        border-radius: var(--radius-full);
         flex-shrink: 0;
+        pointer-events: auto;
 
         &:hover {
           background-color: var(--color-bg-surface);
@@ -298,22 +288,22 @@ const carouselStyles = `
 
       > .controls-wrapper > .indicators {
         display: flex;
-        justify-content: center;
         gap: var(--spacing-sm);
+        justify-content: center;
       }
 
       > .controls-wrapper > .indicators > .indicator {
-        border-radius: var(--radius-full);
-        width: 8px;
         aspect-ratio: 1/1;
-        padding: 0;
-        min-width: 0;
+        border: none;
+        border-radius: var(--radius-full);
+        cursor: pointer;
         min-height: 0;
+        min-width: 0;
+        padding: 0;
         transition:
           transform var(--animation-normal) ease,
           background-color var(--animation-normal) ease;
-        border: none;
-        cursor: pointer;
+        width: 8px;
 
         &[data-selected="true"] {
           background-color: var(--color-brand-muted);

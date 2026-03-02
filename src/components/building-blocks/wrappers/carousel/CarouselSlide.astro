@@ -1,30 +1,43 @@
 ---
 import Component from "@components/utils/renderBlock.astro";
 
-const { contentSections = [], _component, ...htmlAttributes } = Astro.props;
+const {
+  contentSections = [],
+  editable = true,
+  class: className,
+  _component,
+  "data-children-prop": childrenDataProp = "contentSections",
+  ...htmlAttributes
+} = Astro.props;
+
+const arrayDataAttributes = editable
+  ? {
+      "data-editable": "array",
+      "data-prop": childrenDataProp,
+    }
+  : {};
 ---
 
-<div class="slide" role="group" {...htmlAttributes}>
-  <slot>
-    {
-      contentSections && contentSections.length > 0 && (
-        <Component contentSections={contentSections} />
-      )
-    }
-  </slot>
+<div class:list={["slide", className]} role="group" {...htmlAttributes}>
+  <div class="slide__content" {...arrayDataAttributes}>
+    <slot>
+      {contentSections && <Component contentSections={contentSections} editable={editable} />}
+    </slot>
+  </div>
 </div>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     .slide {
-    flex-shrink: 0;
-    flex-basis: calc(max(var(--slide-width, 100%), var(--min-slide-width, 0px)));
-    container-type: inline-size;
+      container-type: inline-size;
+      flex-basis: calc(max(var(--slide-width, 100%), var(--min-slide-width, 0px)));
+      flex-shrink: 0;
 
-    > editable-array > editable-array-item:first-child > *:first-child,
-    > :not(editable-array):first-child {
-      margin-top: 0 !important;
+      > .slide__content {
+        > *:first-child {
+          margin-top: 0 !important;
+        }
+      }
     }
-  }
   }
 </style>

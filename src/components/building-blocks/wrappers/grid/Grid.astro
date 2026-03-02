@@ -1,5 +1,8 @@
 ---
+import { slugifyLabel } from "@components/utils/slugify";
 import GridItem from "./GridItem.astro";
+
+type ItemProps = Record<string, unknown>;
 
 const {
   layout = "center",
@@ -10,18 +13,11 @@ const {
   items = [],
   label,
   gap = "md",
-  editable = true,
+  editable = false,
   _component,
-  "data-prop": dataProp = "items",
+  "data-children-prop": childrenDataProp = "items",
   ...htmlAttributes
 } = Astro.props;
-
-const slugifyLabel = (label: string) => {
-  return label
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-};
 
 if (!htmlAttributes.id && label) {
   htmlAttributes.id = slugifyLabel(label);
@@ -39,65 +35,64 @@ const gridStyles = [
 const arrayDataAttributes = editable
   ? {
       "data-editable": "array",
-      "data-prop": dataProp,
-      "data-component-key": "_component",
-      "data-id-key": "_component",
+      "data-prop": childrenDataProp,
+      "data-direction": "row",
     }
   : {};
 
 const hasItems = items?.length > 0;
-const slotContent = Astro.slots.has("default") ? await Astro.slots.render("default") : null;
-const hasSlotContent = (slotContent?.toString().trim().length ?? 0) > 0;
+const hasSlotContent = Astro.slots.has("default");
 
 if (!_component && !hasItems && !hasSlotContent) return;
 ---
 
-<div
-  {...arrayDataAttributes}
-  class:list={["grid", `layout-${layout}`, className]}
-  style={gridStyles}
-  {...htmlAttributes}
->
-  <slot>
-    {
-      items &&
-        items.length > 0 &&
-        items.map((item: any) => (
-          <editable-array-item data-component="building-blocks/wrappers/grid/grid-item">
-            <GridItem class:list={`layout-${layout}`} contentSections={item.contentSections} />
-          </editable-array-item>
+<div class:list={["grid", `layout-${layout}`, className]} style={gridStyles} {...htmlAttributes}>
+  <div {...arrayDataAttributes} class="grid-inner">
+    <slot>
+      {
+        items?.map((item: ItemProps) => (
+          <GridItem
+            data-id="building-blocks/wrappers/grid/grid-item"
+            data-editable="array-item"
+            class:list={`layout-${layout}`}
+            editable={editable}
+            {...item}
+          />
         ))
-    }
-  </slot>
+      }
+    </slot>
+  </div>
 </div>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     .grid {
-      gap: var(--grid-spacing, --spacing-md);
       margin-top: var(--spacing-lg);
       width: 100%;
+    }
 
-      &.layout-start {
-        align-items: stretch;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(var(--min-item-width), 100%), 1fr));
-        justify-content: start;
-      }
+    .grid.layout-start > .grid-inner {
+      align-items: stretch;
+      display: grid;
+      gap: var(--grid-spacing, var(--spacing-md));
+      grid-template-columns: repeat(auto-fill, minmax(min(var(--min-item-width), 100%), 1fr));
+      justify-content: start;
+      width: 100%;
+    }
 
-      &.layout-center {
-        align-items: stretch;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+    .grid.layout-center > .grid-inner {
+      align-items: stretch;
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--grid-spacing, var(--spacing-md));
+      justify-content: center;
+      width: 100%;
+    }
 
-        > editable-array-item,
-        > .grid-item {
-          flex: 1 1 var(--min-item-width, 200px);
-          max-width: var(--max-item-width, 320px);
-          min-width: min(var(--min-item-width, 200px), 100%);
-        }
-      }
+    .grid.layout-center > .grid-inner > .grid-item {
+      flex: 1 1 var(--min-item-width, 200px);
+      max-width: var(--max-item-width, 320px);
+      min-width: min(var(--min-item-width, 200px), 100%);
     }
   }
 </style>

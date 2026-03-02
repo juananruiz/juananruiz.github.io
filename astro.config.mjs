@@ -1,15 +1,9 @@
 import sitemap from "@astrojs/sitemap";
 import editableRegions from "@cloudcannon/editable-regions/astro-integration";
-import postcssGlobalData from "@csstools/postcss-global-data";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
-import autoprefixer from "autoprefixer";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import postcssCustomMedia from "postcss-custom-media";
-import postcssEach from "postcss-each";
-import postcssImport from "postcss-import";
-import postcssNested from "postcss-nested";
 
 import mdx from "@astrojs/mdx";
 
@@ -17,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://example.com",
+  site: "https://example.com", // TODO: Update to your production URL
   build: {
     inlineStylesheets: "always",
   },
@@ -31,6 +25,20 @@ export default defineConfig({
     domains: ["picsum.photos"],
   },
   integrations: [
+    {
+      name: "builder-preview-dev-only",
+      hooks: {
+        "astro:config:setup": ({ command, injectRoute }) => {
+          if (command === "dev") {
+            injectRoute({
+              pattern: "/component-docs/builder-preview",
+              entrypoint: "./src/component-docs/pages/builder-preview.astro",
+              prerender: false,
+            });
+          }
+        },
+      },
+    },
     editableRegions(),
     icon({
       iconDir: path.resolve(__dirname, "src/icons"),
@@ -39,10 +47,10 @@ export default defineConfig({
       filter: (page) => {
         // Always exclude component library from sitemap if disabled
         if (process.env.DISABLE_COMPONENT_LIBRARY === "true") {
-          return !page.includes("/component-library");
+          return !page.includes("/component-docs");
         }
         // If not disabled, still exclude from sitemap (existing behavior)
-        return !page.includes("/component-library");
+        return !page.includes("/component-docs");
       },
     }),
     mdx(),
@@ -50,18 +58,10 @@ export default defineConfig({
   vite: {
     css: {
       devSourcemap: true,
-      postcss: {
-        plugins: [
-          postcssImport,
-          postcssGlobalData({
-            files: [path.resolve(__dirname, "./src/styles/variables/_media.pcss")],
-          }),
-          postcssCustomMedia,
-          postcssNested,
-          postcssEach,
-          autoprefixer,
-        ],
-      },
+      transformer: "lightningcss",
+    },
+    build: {
+      cssMinify: "lightningcss",
     },
     resolve: {
       alias: {
@@ -77,8 +77,9 @@ export default defineConfig({
         "@data": path.resolve(__dirname, "src/data"),
         "@content": path.resolve(__dirname, "src/content"),
         "@assets": path.resolve(__dirname, "src/assets"),
-        "@component-library": path.resolve(__dirname, "src/component-library"),
+        "@component-docs": path.resolve(__dirname, "src/component-docs"),
         "@layouts": path.resolve(__dirname, "src/layouts"),
+        "@component-utils": path.resolve(__dirname, "src/components/utils"),
         "@styles": path.resolve(__dirname, "src/styles"),
       },
     },

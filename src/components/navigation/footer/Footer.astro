@@ -6,10 +6,11 @@ import Divider from "@core-elements/divider/Divider.astro";
 import Image from "@core-elements/image/Image.astro";
 import Text from "@core-elements/text/Text.astro";
 import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import type { SocialLink } from "../../../../types";
 
 const {
   links = [],
-  socials = [],
+  socials = [] as SocialLink[],
   footerText = "",
   logoSource,
   logoAlt,
@@ -19,13 +20,18 @@ const {
 ---
 
 <footer class="footer" {...htmlAttributes}>
-  <CustomSection maxContentWidth="2xl" paddingHorizontal="md" paddingVertical="2xl">
+  <CustomSection
+    maxContentWidth="2xl"
+    paddingHorizontal="md"
+    paddingVertical="2xl"
+    editable={false}
+  >
     <div class="footer-content">
       <div class="content-container">
         <Image source={logoSource} alt={logoAlt} class="footer-logo" editable={false} />
       </div>
       <div class="content-container">
-        <Bar navData={links} />
+        <Bar navData={links} editable={false} />
       </div>
     </div>
 
@@ -33,21 +39,22 @@ const {
 
     <div class="footer-content">
       <div class="content-container">
-        <Text class="footer-legal-text" text={footerText || ""} data-prop="" />
+        <Text class="footer-legal-text" text={footerText || ""} data-prop="" editable={false} />
       </div>
       <div class="content-container">
-        <ButtonGroup alignX="end">
+        <ButtonGroup alignX="end" editable={false}>
           {
-            socials.map((social: any) => (
+            socials.map((social) => (
               <Button
                 variant="ghost"
                 size="lg"
                 iconName={social.icon}
                 link={social.link}
                 hideText="true"
-                aria-label={`Visit our ${social.icon} page`}
+                aria-label={social.label || `Visit our ${social.icon.replace(/^.*\//, "")} page`}
                 target="_blank"
                 rel="noopener noreferrer"
+                editable={false}
               />
             ))
           }
@@ -57,7 +64,7 @@ const {
   </CustomSection>
 </footer>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer page-sections {
     .footer {
       container-type: inline-size;

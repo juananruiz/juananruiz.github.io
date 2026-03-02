@@ -1,39 +1,37 @@
 ---
-import Heading from "@core-elements/heading/Heading.astro";
 import ContentSelectorPanel from "./ContentSelectorPanel.astro";
+import { slugifyLabel } from "@components/utils/slugify";
+import type { ContentSelectorItem } from "../../../../types";
 
 const {
-  items,
+  items = [] as ContentSelectorItem[],
   navigationPosition = "start",
   class: className,
   label,
-  editable = true,
-  "data-prop": customDataProp = "items",
+  editable = false,
+  "data-children-prop": childrenDataProp = "items",
   _component,
   ...htmlAttributes
 } = Astro.props;
-
-const slugifyLabel = (label: string) => {
-  return label
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-};
 
 if (!htmlAttributes.id && label) {
   htmlAttributes.id = slugifyLabel(label);
 }
 
 const uniqueId = crypto.randomUUID();
+const groupName = `tabs-${uniqueId}`;
 
 const arrayDataAttributes = editable
   ? {
       "data-editable": "array",
-      "data-prop": customDataProp,
-      "data-component-key": "_component",
-      "data-id-key": "_component",
+      "data-prop": childrenDataProp,
     }
   : {};
+
+const hasItems = items?.length > 0;
+const hasSlotContent = Astro.slots.has("default");
+
+if (!_component && !hasItems && !hasSlotContent) return;
 ---
 
 <section
@@ -41,110 +39,38 @@ const arrayDataAttributes = editable
   data-uid={uniqueId}
   {...htmlAttributes}
 >
-  {
-    items?.map((item: any, index: number) => (
-      <input
-        type="radio"
-        name={`tabs-${uniqueId}`}
-        id={`tab-${uniqueId}-${index}`}
-        class="input"
-        hidden
-        checked={index === 0}
-        autocomplete="off"
-      />
-    ))
-  }
-
-  <div class="tabs" role="tablist">
-    {
-      items?.map((item: any, index: number) => (
-        <label
-          class="tab"
-          id={`tablabel-${uniqueId}-${index}`}
-          for={`tab-${uniqueId}-${index}`}
-          role="tab"
-          aria-controls={`panel-${uniqueId}-${index}`}
-          tabindex="0"
-          aria-selected={index === 0}
-        >
-          <Heading
-            text={item.title}
-            level="h3"
-            size="h3"
-            alignX={navigationPosition === "top" ? "center" : "start"}
-            class="tab-heading"
-            editable={false}
-          />
-        </label>
-      ))
-    }
-  </div>
-
-  <div class="panels" {...arrayDataAttributes}>
-    {
-      items?.map((item: any, index: number) => (
-        <editable-array-item data-component="building-blocks/wrappers/content-selector/content-selector-panel">
+  <div class="content-selector-items" role="tablist" {...arrayDataAttributes}>
+    <slot>
+      {
+        items?.map((item: ContentSelectorItem, index: number) => (
           <ContentSelectorPanel
-            index={index}
-            uniqueId={uniqueId}
+            title={item.title}
             contentSections={item.contentSections}
+            _component={item._component}
+            checked={index === 0}
+            groupName={groupName}
+            navigationPosition={navigationPosition}
+            editable={editable}
+            data-editable="array-item"
           />
-        </editable-array-item>
-      ))
-    }
+        ))
+      }
+    </slot>
   </div>
-
-  <script>
-    function updateContentSelectorAria(el: HTMLElement) {
-      const inputs = Array.from(el.querySelectorAll<HTMLInputElement>('input.input[type="radio"]'));
-      const tabs = Array.from(el.querySelectorAll<HTMLElement>('[role="tab"]'));
-      const panels = Array.from(el.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
-      const checked = el.querySelector<HTMLInputElement>('input.input[type="radio"]:checked');
-      const checkedIndex = checked ? inputs.indexOf(checked) : 0;
-      tabs.forEach((tab: HTMLElement, i: number) =>
-        tab.setAttribute("aria-selected", i === checkedIndex ? "true" : "false")
-      );
-      panels.forEach((panel: HTMLElement, i: number) =>
-        panel.setAttribute("aria-hidden", i !== checkedIndex ? "true" : "false")
-      );
-    }
-
-    function setupContentSelectors() {
-      document.querySelectorAll("section.content-selector").forEach((node) => {
-        if (!(node instanceof HTMLElement)) return;
-        const el: HTMLElement = node;
-        const inputs = el.querySelectorAll<HTMLInputElement>('input.input[type="radio"]');
-        inputs.forEach((input) => {
-          input.addEventListener("change", () => updateContentSelectorAria(el));
-        });
-        updateContentSelectorAria(el);
-      });
-    }
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", setupContentSelectors);
-    } else {
-      setupContentSelectors();
-    }
-  </script>
 </section>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     .content-selector {
       --content-selector-border-width: 1px;
-      display: flex;
       margin-top: var(--spacing-lg);
 
-      > .input {
-        display: none;
-      }
-
-      > .tabs {
+      > .content-selector-items {
         border: 0 solid var(--color-bg-muted);
+        width: 100%;
       }
 
-      > .tabs > .tab {
+      .content-selector-tab {
         background: transparent;
         border: none;
         cursor: pointer;
@@ -157,8 +83,6 @@ const arrayDataAttributes = editable
         &::before {
           background: transparent;
           content: "";
-          inset-block: 0;
-          inset-inline-start: calc(var(--content-selector-border-width) * -1);
           position: absolute;
           transition:
             transform var(--animation-normal),
@@ -168,59 +92,85 @@ const arrayDataAttributes = editable
         &:hover {
           background: var(--color-state-hover);
         }
-      }
 
-      > .tabs > .tab > .tab-heading {
-        margin: 0;
-      }
-
-      > .panels {
-        flex: 1;
-        width: 100%;
-      }
-
-      @each $i in 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 {
-        .input:nth-of-type($i):checked ~ .tabs > .tab:nth-of-type($i)::before {
-          background: var(--color-border-strong);
-        }
-
-        .input:nth-of-type($i):checked ~ .panels > .panel:nth-of-type($i),
-        .input:nth-of-type($i):checked ~ .panels > editable-array-item:nth-of-type($i) > .panel {
-          display: revert;
+        > .content-selector-tab-heading {
+          margin: 0;
         }
       }
-    }
 
-    .content-selector.nav-start {
-      gap: var(--spacing-em-lg);
-
-      > .tabs {
-        border-inline-start-width: var(--content-selector-border-width);
-        max-width: 20rem;
-        min-width: 10rem;
-        width: fit-content;
+      .content-selector-item > .content-selector-input:checked + .content-selector-tab::before {
+        background: var(--color-border-strong);
       }
 
-      > .tabs > .tab {
-        &::before {
-          width: var(--content-selector-border-width);
+      .content-selector-item
+        > .content-selector-input:checked
+        + .content-selector-tab
+        + .content-selector-panel {
+        display: block;
+      }
+
+      &:not(:has(.content-selector-item > .content-selector-input:checked))
+        .content-selector-item:first-of-type
+        > .content-selector-tab::before {
+        background: var(--color-border-strong);
+      }
+
+      &:not(:has(.content-selector-item > .content-selector-input:checked))
+        .content-selector-item:first-of-type
+        > .content-selector-panel {
+        display: block;
+      }
+
+      &.nav-start {
+        > .content-selector-items {
+          column-gap: var(--spacing-em-lg);
+          display: grid;
+          grid-template-columns: minmax(10rem, 20rem) minmax(0, 1fr);
+        }
+
+        .content-selector-tab {
+          border-inline-start: var(--content-selector-border-width) solid var(--color-bg-muted);
+          grid-column: 1;
+
+          &::before {
+            inset-block: 0;
+            inset-inline-start: calc(var(--content-selector-border-width) * -1);
+            width: var(--content-selector-border-width);
+          }
+        }
+
+        .content-selector-panel {
+          grid-column: 2;
+          grid-row: 1 / span 999;
+          padding: 0 var(--spacing-md);
+          width: 100%;
         }
       }
-    }
 
-    .content-selector.nav-top {
-      flex-direction: column;
+      &.nav-top {
+        > .content-selector-items {
+          border-bottom-width: var(--content-selector-border-width);
+          display: flex;
+          flex-wrap: wrap;
+        }
 
-      > .tabs {
-        border-bottom-width: var(--content-selector-border-width);
-        display: flex;
-        margin-bottom: var(--spacing-md);
-      }
+        .content-selector-tab {
+          width: fit-content;
 
-      > .tabs > .tab::before {
-        height: var(--content-selector-border-width);
-        inset-block: 100%;
-        width: 100%;
+          &::before {
+            height: var(--content-selector-border-width);
+            inset-block: 100%;
+            inset-inline-start: 0;
+            width: 100%;
+          }
+        }
+
+        .content-selector-panel {
+          flex-basis: 100%;
+          margin-top: var(--spacing-md);
+          padding: 0 var(--spacing-md);
+          width: 100%;
+        }
       }
     }
   }

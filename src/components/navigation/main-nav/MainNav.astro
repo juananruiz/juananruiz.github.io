@@ -4,12 +4,13 @@ import Bar from "@components/navigation/bar/Bar.astro";
 import Mobile from "@components/navigation/mobile/Mobile.astro";
 import Image from "@core-elements/image/Image.astro";
 import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+import type { NavButton } from "../../../../types";
 
 const {
   logoSource,
   logoAlt = "logo",
   navData = [],
-  buttonSections = [],
+  buttonSections = [] as NavButton[],
   class: className,
   _component,
   ...htmlAttributes
@@ -17,7 +18,7 @@ const {
 
 const mobileNavData = [
   ...navData,
-  ...buttonSections.map((button: any) => ({
+  ...buttonSections.map((button) => ({
     name: button.text || "Button",
     path: button.href || "#",
     children: [],
@@ -31,6 +32,7 @@ const mobileNavData = [
   paddingVertical="none"
   class:list={["main-nav", className]}
   {...htmlAttributes}
+  editable={false}
 >
   <a href="/">
     <Image source={logoSource} class="main-nav-logo" alt={logoAlt} editable={false} />
@@ -51,17 +53,18 @@ const mobileNavData = [
     logoAlt={logoAlt}
     navData={mobileNavData}
     class="mobile-main-nav"
+    editable={false}
   />
 </CustomSection>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer page-sections {
     .main-nav {
-      z-index: var(--layer-2);
-      background-color: var(--color-bg); 
+      background-color: var(--color-bg);
       padding-block: var(--spacing-md);
-      position: sticky; 
+      position: sticky;
       top: 0;
+      z-index: var(--layer-2);
 
       .desktop-main-nav.bar,
       .desktop-button-group.button-group {
@@ -101,9 +104,9 @@ const mobileNavData = [
       > .outer-content > .content > .nav-end {
         align-items: center;
         display: flex;
+        flex-shrink: 0;
         justify-content: flex-end;
         margin-left: auto;
-        flex-shrink: 0;
 
         > .button-group {
           container-type: normal;

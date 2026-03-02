@@ -1,21 +1,18 @@
 ---
+import { pascalToKebab } from "@components/utils/pascalToKebab";
+import type { ContentBlock } from "../../types";
+
 export interface Props {
-  contentSections: any[];
-  propName?: string;
+  contentSections: ContentBlock[];
   editable?: boolean;
 }
 
-const components: Record<string, Function> = {};
+type AstroComponent = (_props: Record<string, unknown>) => unknown;
+
+const components: Record<string, AstroComponent> = {};
 const componentImports = import.meta.glob("../**/*.{jsx,astro}", {
   eager: true,
 });
-
-function pascalToKebab(pascal: string): string {
-  return pascal
-    .replace(/([A-Z])/g, "-$1")
-    .toLowerCase()
-    .replace(/^-/, "");
-}
 
 Object.entries(componentImports).forEach(([path, obj]) => {
   const parts = path.replace("../", "").split(".")[0].split("/");
@@ -32,49 +29,32 @@ Object.entries(componentImports).forEach(([path, obj]) => {
 
   const componentName = parts.join("/");
 
-  components[componentName] = (obj as any).default;
+  components[componentName] = (obj as Record<string, AstroComponent>).default;
 });
 
-const { contentSections, propName = "contentSections", editable = true } = Astro.props;
+const { contentSections, editable = true } = Astro.props;
 ---
 
 {
-  !editable ? (
-    contentSections?.map((block) => {
-      const Component = components[block._component];
+  // Array-level editable attributes are owned by the caller's container element.
+  // This utility only resolves blocks and marks each rendered block as an array item.
+  contentSections?.map((block) => {
+    const Component = components[block._component];
 
-      if (!Component && block._component) {
-        console.warn(
-          `Component not found: ${block._component}. Available components:`,
-          Object.keys(components)
-        );
-      }
+    if (!Component && block._component) {
+      console.warn(
+        `Component not found: ${block._component}. Available components:`,
+        Object.keys(components)
+      );
+    }
 
-      return Component ? <Component {...block} editable={editable} /> : null;
-    })
-  ) : (
-    <editable-array
-      data-editable="array"
-      data-component-key="_component"
-      data-id-key="_component"
-      data-prop={propName}
-    >
-      {contentSections?.map((block) => {
-        const Component = components[block._component];
-
-        if (!Component && block._component) {
-          console.warn(
-            `Component not found: ${block._component}. Available components:`,
-            Object.keys(components)
-          );
-        }
-
-        return Component ? (
-          <editable-array-item data-id={block._component} data-component={block._component}>
-            <Component {...block} />
-          </editable-array-item>
-        ) : null;
-      })}
-    </editable-array>
-  )
+    return Component ? (
+      <Component
+        data-editable={editable ? "array-item" : undefined}
+        data-id={block._component}
+        {...block}
+        editable={editable}
+      />
+    ) : null;
+  })
 }

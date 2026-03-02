@@ -1,5 +1,6 @@
 ---
 import Component from "@components/utils/renderBlock.astro";
+import { slugifyLabel } from "@components/utils/slugify";
 import Image from "@core-elements/image/Image.astro";
 
 const {
@@ -18,8 +19,11 @@ const {
   rounded = false,
   border = false,
   class: className,
-  editable = true,
+  editable = false,
   _component,
+  "data-children-prop": childrenDataProp = "contentSections",
+  "data-children-prop-before": childrenDataPropBefore = "beforeContentSections",
+  "data-children-prop-after": childrenDataPropAfter = "afterContentSections",
   ...htmlAttributes
 } = Astro.props;
 
@@ -30,18 +34,36 @@ const {
   positionHorizontal = "center",
 } = backgroundImage || {};
 
-const slugifyLabel = (label: string) => {
-  return label
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-};
-
 if (!htmlAttributes.id && label) {
   htmlAttributes.id = slugifyLabel(label);
 }
 
+const arrayDataAttributes = editable
+  ? {
+      "data-editable": "array",
+      "data-prop": childrenDataProp,
+    }
+  : {};
+
+const arrayDataAttributesBefore = editable
+  ? {
+      "data-editable": "array",
+      "data-prop": childrenDataPropBefore,
+    }
+  : {};
+
+const arrayDataAttributesAfter = editable
+  ? {
+      "data-editable": "array",
+      "data-prop": childrenDataPropAfter,
+    }
+  : {};
+
 const Tag = link ? "a" : "div";
+const hasBeforeSlot = Astro.slots.has("before");
+const hasAfterSlot = Astro.slots.has("after");
+const usesBeforeContentSections = !hasBeforeSlot && showBeforeAfter && beforeContentSections;
+const usesAfterContentSections = !hasAfterSlot && showBeforeAfter && afterContentSections;
 ---
 
 <Tag
@@ -71,11 +93,11 @@ const Tag = link ? "a" : "div";
   }
 
   {
-    ((beforeContentSections && showBeforeAfter) || Astro.slots.has("before")) && (
-      <div class="before-content">
+    (usesBeforeContentSections || hasBeforeSlot) && (
+      <div class="before-content" {...arrayDataAttributesBefore}>
         <slot name="before">
           {beforeContentSections && (
-            <Component contentSections={beforeContentSections} propName="beforeContentSections" />
+            <Component contentSections={beforeContentSections} editable={editable} />
           )}
         </slot>
       </div>
@@ -90,23 +112,20 @@ const Tag = link ? "a" : "div";
         paddingVertical && `pad-y-${paddingVertical}`,
         maxContentWidth && `max-width-${maxContentWidth}`,
       ]}
+      {...arrayDataAttributes}
     >
       <slot>
-        {
-          contentSections && (
-            <Component contentSections={contentSections} propName="contentSections" />
-          )
-        }
+        {contentSections && <Component contentSections={contentSections} editable={editable} />}
       </slot>
     </div>
   </div>
 
   {
-    ((afterContentSections && showBeforeAfter) || Astro.slots.has("after")) && (
-      <div class="after-content">
+    (usesAfterContentSections || hasAfterSlot) && (
+      <div class="after-content" {...arrayDataAttributesAfter}>
         <slot name="after">
           {afterContentSections && (
-            <Component contentSections={afterContentSections} propName="afterContentSections" />
+            <Component contentSections={afterContentSections} editable={editable} />
           )}
         </slot>
       </div>
@@ -114,7 +133,7 @@ const Tag = link ? "a" : "div";
   }
 </Tag>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     a.card:hover {
       transform: scale(1.05);
@@ -141,125 +160,99 @@ const Tag = link ? "a" : "div";
 
       > .card-outer-content {
         height: 100%;
-      }
-
-      > .card-outer-content > .card-content {
-        height: 100%;
-        margin-inline: auto;
         position: relative;
-        z-index: var(--layer-1);
-        container-type: inline-size;
+        z-index: var(--layer-2);
 
-        > editable-array > editable-array-item:first-child > *:first-child,
-        > :not(editable-array):first-child {
-          margin-top: 0 !important;
-        }
+        > .card-content {
+          container-type: inline-size;
+          height: 100%;
+          margin-inline: auto;
+          position: relative;
+          z-index: var(--layer-1);
 
-        > editable-array > editable-array-item:last-child > *:last-child,
-        > :not(editable-array):last-child {
-          margin-bottom: 0 !important;
-        }
+          > *:first-child {
+            margin-top: 0 !important;
+          }
 
-        &.pad-x-xs {
-          padding-inline: var(--spacing-xs);
-        }
+          > *:last-child {
+            margin-bottom: 0 !important;
+          }
 
-        &.pad-x-sm {
-          padding-inline: var(--spacing-sm);
-        }
+          &.pad-x-xs {
+            padding-inline: var(--spacing-xs);
+          }
 
-        &.pad-x-md {
-          padding-inline: var(--spacing-md);
-        }
+          &.pad-x-sm {
+            padding-inline: var(--spacing-sm);
+          }
 
-        &.pad-x-lg {
-          padding-inline: var(--spacing-lg);
-        }
+          &.pad-x-md {
+            padding-inline: var(--spacing-md);
+          }
 
-        &.pad-x-xl {
-          padding-inline: var(--spacing-xl);
-        }
+          &.pad-x-lg {
+            padding-inline: var(--spacing-lg);
+          }
 
-        &.pad-x-2xl {
-          padding-inline: var(--spacing-2xl);
-        }
+          &.pad-x-xl {
+            padding-inline: var(--spacing-xl);
+          }
 
-        &.pad-y-xs {
-          padding-block: var(--spacing-xs);
-        }
+          &.pad-x-2xl {
+            padding-inline: var(--spacing-2xl);
+          }
 
-        &.pad-y-sm {
-          padding-block: var(--spacing-sm);
-        }
-
-        &.pad-y-md {
-          padding-block: var(--spacing-md);
-        }
-
-        &.pad-y-lg {
-          padding-block: var(--spacing-lg);
-        }
-
-        &.pad-y-xl {
-          padding-block: var(--spacing-xl);
-        }
-
-        &.pad-y-2xl {
-          padding-block: var(--spacing-2xl);
-        }
-
-        @media (--to-sm) {
           &.pad-y-xs {
             padding-block: var(--spacing-xs);
           }
 
           &.pad-y-sm {
-            padding-block: var(--spacing-xs);
-          }
-
-          &.pad-y-md {
             padding-block: var(--spacing-sm);
           }
 
-          &.pad-y-lg {
+          &.pad-y-md {
             padding-block: var(--spacing-md);
+          }
+
+          &.pad-y-lg {
+            padding-block: var(--spacing-lg);
           }
 
           &.pad-y-xl {
-            padding-block: var(--spacing-md);
+            padding-block: var(--spacing-xl);
           }
 
           &.pad-y-2xl {
-            padding-block: var(--spacing-lg);
+            padding-block: var(--spacing-2xl);
           }
-        }
 
-        &.max-width-xs {
-          max-width: var(--content-width-xs);
-        }
+          &.max-width-xs {
+            max-width: var(--content-width-xs);
+          }
 
-        &.max-width-sm {
-          max-width: var(--content-width-sm);
-        }
+          &.max-width-sm {
+            max-width: var(--content-width-sm);
+          }
 
-        &.max-width-md {
-          max-width: var(--content-width-md);
-        }
+          &.max-width-md {
+            max-width: var(--content-width-md);
+          }
 
-        &.max-width-lg {
-          max-width: var(--content-width-lg);
-        }
+          &.max-width-lg {
+            max-width: var(--content-width-lg);
+          }
 
-        &.max-width-xl {
-          max-width: var(--content-width-xl);
-        }
+          &.max-width-xl {
+            max-width: var(--content-width-xl);
+          }
 
-        &.max-width-2xl {
-          max-width: var(--content-width-2xl);
-        }
+          &.max-width-2xl {
+            max-width: var(--content-width-2xl);
+          }
 
-        &.max-width-3xl {
-          max-width: var(--content-width-3xl);
+          &.max-width-3xl {
+            max-width: var(--content-width-3xl);
+          }
         }
       }
 
@@ -268,20 +261,13 @@ const Tag = link ? "a" : "div";
         position: relative;
         z-index: var(--layer-2);
 
-        > editable-array > editable-array-item:first-child > *:first-child,
-        > :not(editable-array):first-child {
+        > *:first-child {
           margin-top: 0 !important;
         }
 
-        > editable-array > editable-array-item:last-child > *:last-child,
-        > :not(editable-array):last-child {
+        > *:last-child {
           margin-bottom: 0 !important;
         }
-      }
-
-      > .card-outer-content {
-        position: relative;
-        z-index: var(--layer-2);
       }
 
       > .background {
@@ -292,7 +278,7 @@ const Tag = link ? "a" : "div";
       > .background-image {
         z-index: var(--layer-1);
       }
-      
+
       > .bg-base {
         background-color: var(--color-bg);
       }
@@ -307,6 +293,34 @@ const Tag = link ? "a" : "div";
 
       > .bg-highlight {
         background-color: var(--color-bg-highlight);
+      }
+    }
+
+    @media (width < 640px) {
+      .card > .card-outer-content > .card-content {
+        &.pad-y-xs {
+          padding-block: var(--spacing-xs);
+        }
+
+        &.pad-y-sm {
+          padding-block: var(--spacing-xs);
+        }
+
+        &.pad-y-md {
+          padding-block: var(--spacing-sm);
+        }
+
+        &.pad-y-lg {
+          padding-block: var(--spacing-md);
+        }
+
+        &.pad-y-xl {
+          padding-block: var(--spacing-md);
+        }
+
+        &.pad-y-2xl {
+          padding-block: var(--spacing-lg);
+        }
       }
     }
   }

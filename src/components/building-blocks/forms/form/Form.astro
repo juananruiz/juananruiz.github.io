@@ -1,7 +1,28 @@
 ---
 import RenderBlock from "@components/utils/renderBlock.astro";
 
-const { action, formBlocks = [], class: className, _component, ...htmlAttributes } = Astro.props;
+const {
+  action,
+  formBlocks = [],
+  class: className,
+  _component,
+  editable = false,
+  "data-children-prop": childrenDataProp = "formBlocks",
+  ...htmlAttributes
+} = Astro.props;
+
+const arrayDataAttributes = editable
+  ? {
+      "data-editable": "array",
+      "data-prop": childrenDataProp,
+    }
+  : {};
+
+const hasFormBlocks = formBlocks?.length > 0;
+const hasSlotContent = Astro.slots.has("default");
+const usesFormBlocks = !hasSlotContent;
+
+if (!_component && !hasFormBlocks && !usesFormBlocks) return;
 ---
 
 <form
@@ -11,11 +32,14 @@ const { action, formBlocks = [], class: className, _component, ...htmlAttributes
   enctype="multipart/form-data"
   {...htmlAttributes}
 >
-  <RenderBlock contentSections={formBlocks} propName="formBlocks" />
-  <slot />
+  <div {...arrayDataAttributes}>
+    <slot>
+      {formBlocks && <RenderBlock contentSections={formBlocks} />}
+    </slot>
+  </div>
 </form>
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer components {
     .form {
       margin-top: var(--spacing-lg);

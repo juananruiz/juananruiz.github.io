@@ -20,6 +20,7 @@ const {
   colorScheme = "inherit",
   backgroundColor,
   paddingVertical = "4xl",
+  editable = true,
   class: className,
   _component,
   ...htmlAttributes
@@ -50,9 +51,7 @@ const featureSplitId = `feature-split-${crypto.randomUUID()}`;
     reverseOrderOnMobile={true}
   >
     <Fragment slot="first">
-      <SimpleText class="eyebrow" data-prop="eyebrow">
-        {eyebrow}
-      </SimpleText>
+      <SimpleText class="eyebrow" data-prop="eyebrow" text={eyebrow} />
       <Heading level="h2" size="lg" data-prop="heading">
         {heading}
       </Heading>
@@ -62,6 +61,7 @@ const featureSplitId = `feature-split-${crypto.randomUUID()}`;
         buttonSections={buttonSections}
         direction="row"
         alignX="start"
+        editable={true}
       />
     </Fragment>
     <Image
@@ -98,7 +98,7 @@ const featureSplitId = `feature-split-${crypto.randomUUID()}`;
   )
 }
 
-<style lang="pcss" is:global>
+<style is:global>
   @layer page-sections {
     .feature-split-layout {
       container-type: inline-size;

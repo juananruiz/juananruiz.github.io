@@ -1,7 +1,7 @@
 ---
 import StructuredData from "@components/utils/StructuredData.astro";
 import seoData from "@data/seo.json";
-import "@styles/style.pcss";
+import "@styles/style.css";
 import { SEO } from "astro-seo";
 
 export interface Props {
@@ -10,7 +10,6 @@ export interface Props {
   keywords?: string[] | null;
   image?: string | null;
   canonical?: string | null;
-  contentSections?: any;
 }
 
 const props = Astro.props;
@@ -20,7 +19,7 @@ const pageImage = props.image || seoData.logoSource;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="default">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -29,6 +28,8 @@ const pageImage = props.image || seoData.logoSource;
     <style is:inline>
       @layer reset, base, components, page-sections, utils, overrides;
     </style>
+
+    {import.meta.env.DEV ? <script type="module" src="/@vite/client" /> : null}
 
     <script>
       if (window.inEditorMode) {
@@ -66,9 +67,9 @@ const pageImage = props.image || seoData.logoSource;
     <slot name="head" />
   </head>
   <body>
-    <main>
+    <div>
       <slot />
-    </main>
+    </div>
     <script>
       import "@choctawnationofoklahoma/lite-vimeo";
       import "@justinribeiro/lite-youtube";
