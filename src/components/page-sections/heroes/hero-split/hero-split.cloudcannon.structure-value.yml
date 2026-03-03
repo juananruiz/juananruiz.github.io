@@ -10,8 +10,7 @@ value:
   imageAlt: Hero image
   imageAspectRatio: none
   buttonSections:
-    - _component: building-blocks/core-elements/button
-      text: My Button
+    - text: My Button
       hideText: false
       link: ""
       iconName: ""

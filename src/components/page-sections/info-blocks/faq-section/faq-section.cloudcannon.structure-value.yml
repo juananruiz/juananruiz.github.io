@@ -31,11 +31,9 @@ _structures:
       - label: FAQ Item
         icon: help_outline
         value:
-          _component: building-blocks/wrappers/accordion/accordion-item
           title: Question text
           contentSections:
-            - _component: building-blocks/core-elements/text
-              text: Answer text goes here.
+            - text: Answer text goes here.
         preview:
           text:
             - key: title
