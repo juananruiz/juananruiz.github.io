@@ -20,7 +20,6 @@ const {
   colorScheme = "inherit",
   backgroundColor,
   paddingVertical = "4xl",
-  editable = true,
   class: className,
   _component,
   ...htmlAttributes
@@ -61,7 +60,7 @@ const featureSplitId = `feature-split-${crypto.randomUUID()}`;
         buttonSections={buttonSections}
         direction="row"
         alignX="start"
-        editable={true}
+        data-children-prop="buttonSections"
       />
     </Fragment>
     <Image

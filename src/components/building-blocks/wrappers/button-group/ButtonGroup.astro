@@ -6,7 +6,7 @@ const {
   direction = "row",
   alignX = "start",
   buttonSections,
-  "data-children-prop": childrenDataProp = "buttonSections",
+  "data-children-prop": childrenDataProp,
   editable = false,
   class: className,
   label,
@@ -14,11 +14,9 @@ const {
   ...htmlAttributes
 } = Astro.props;
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "buttonSections" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 
 if (!htmlAttributes.id && label) {
@@ -47,7 +45,7 @@ if (!_component && !hasButtonSections && !hasSlotContent) return;
     <slot>
       {
         buttonSections && buttonSections.length > 0 && (
-          <Component contentSections={buttonSections} editable={editable} />
+          <Component contentSections={buttonSections} editable={!!effectiveChildrenProp} />
         )
       }
     </slot>

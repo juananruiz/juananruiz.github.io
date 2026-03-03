@@ -7,15 +7,13 @@ const {
   class: className,
   _component,
   editable = false,
-  "data-children-prop": childrenDataProp = "formBlocks",
+  "data-children-prop": childrenDataProp,
   ...htmlAttributes
 } = Astro.props;
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "formBlocks" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 
 const hasFormBlocks = formBlocks?.length > 0;
@@ -34,7 +32,7 @@ if (!_component && !hasFormBlocks && !usesFormBlocks) return;
 >
   <div {...arrayDataAttributes}>
     <slot>
-      {formBlocks && <RenderBlock contentSections={formBlocks} />}
+      {formBlocks && <RenderBlock contentSections={formBlocks} editable={!!effectiveChildrenProp} />}
     </slot>
   </div>
 </form>

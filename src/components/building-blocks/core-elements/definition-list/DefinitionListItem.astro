@@ -3,28 +3,22 @@ const {
   title,
   text,
   class: className,
-  editable = true,
-  "data-prop-title": customDataPropTitle = "title",
-  "data-prop-content": customDataPropContent = "text",
+  editable = false,
+  "data-prop-title": customDataPropTitle,
+  "data-prop-content": customDataPropContent,
   _component,
   ...htmlAttributes
 } = Astro.props;
 
-const titleDataAttributes =
-  editable && customDataPropTitle
-    ? {
-        "data-editable": "text",
-        "data-prop": customDataPropTitle,
-      }
-    : {};
+const effectiveTitleProp = customDataPropTitle ?? (editable ? "title" : null);
+const titleDataAttributes = effectiveTitleProp
+  ? { "data-editable": "text", "data-prop": effectiveTitleProp }
+  : {};
 
-const contentDataAttributes =
-  editable && customDataPropContent
-    ? {
-        "data-editable": "text",
-        "data-prop": customDataPropContent,
-      }
-    : {};
+const effectiveContentProp = customDataPropContent ?? (editable ? "text" : null);
+const contentDataAttributes = effectiveContentProp
+  ? { "data-editable": "text", "data-prop": effectiveContentProp }
+  : {};
 
 const hasTitle = title?.trim().length > 0;
 const hasTitleSlotContent = Astro.slots.has("title");

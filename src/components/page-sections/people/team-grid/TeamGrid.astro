@@ -16,7 +16,6 @@ const {
   backgroundColor,
   paddingVertical = "4xl",
   _component,
-  editable = true,
   class: className,
   ...htmlAttributes
 } = Astro.props;
@@ -49,7 +48,6 @@ const {
     maxItemWidth={400}
     data-children-prop="teamMembers"
     layout="start"
-    editable={true}
   >
     {
       teamMembers.map((member: MemberProps) => (

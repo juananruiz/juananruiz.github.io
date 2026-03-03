@@ -9,15 +9,13 @@ const {
   isOpen = false,
   accordionName,
   _component,
-  "data-children-prop": childrenDataProp = "contentSections",
+  "data-children-prop": childrenDataProp,
   ...htmlAttributes
 } = Astro.props;
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "contentSections" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 ---
 
@@ -28,7 +26,7 @@ const arrayDataAttributes = editable
   </summary>
   <div class="accordion-item-detail" {...arrayDataAttributes}>
     <slot>
-      {contentSections && <RenderBlock contentSections={contentSections} editable={editable} />}
+      {contentSections && <RenderBlock contentSections={contentSections} editable={!!effectiveChildrenProp} />}
     </slot>
   </div>
 </details>

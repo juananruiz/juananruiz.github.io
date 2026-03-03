@@ -15,7 +15,7 @@ const {
   gap = "md",
   editable = false,
   _component,
-  "data-children-prop": childrenDataProp = "items",
+  "data-children-prop": childrenDataProp,
   ...htmlAttributes
 } = Astro.props;
 
@@ -32,12 +32,9 @@ const gridStyles = [
   .filter(Boolean)
   .join("; ");
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-      "data-direction": "row",
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "items" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp, "data-direction": "row" }
   : {};
 
 const hasItems = items?.length > 0;
@@ -55,7 +52,7 @@ if (!_component && !hasItems && !hasSlotContent) return;
             data-id="building-blocks/wrappers/grid/grid-item"
             data-editable="array-item"
             class:list={`layout-${layout}`}
-            editable={editable}
+            editable={!!effectiveChildrenProp}
             {...item}
           />
         ))

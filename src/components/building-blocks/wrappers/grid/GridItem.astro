@@ -6,22 +6,20 @@ const {
   editable = false,
   class: className,
   _component,
-  "data-children-prop": childrenDataProp = "contentSections",
+  "data-children-prop": childrenDataProp,
   ...htmlAttributes
 } = Astro.props;
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "contentSections" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 ---
 
 <div class:list={["grid-item", className]} {...htmlAttributes}>
   <div class="grid-item-content" {...arrayDataAttributes}>
     <slot>
-      {contentSections && <RenderBlock contentSections={contentSections} editable={editable} />}
+      {contentSections && <RenderBlock contentSections={contentSections} editable={!!effectiveChildrenProp} />}
     </slot>
   </div>
 </div>

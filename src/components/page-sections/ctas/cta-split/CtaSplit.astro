@@ -17,7 +17,6 @@ const {
   backgroundColor,
   paddingVertical = "4xl",
   rounded = false,
-  editable = true,
   class: className,
   _component,
   ...htmlAttributes
@@ -52,7 +51,7 @@ const {
         buttonSections={buttonSections}
         direction="row"
         alignX="start"
-        editable={true}
+        data-children-prop="buttonSections"
       />
     </Fragment>
     <Fragment slot="second">

@@ -3,25 +3,23 @@ import Component from "@components/utils/renderBlock.astro";
 
 const {
   contentSections = [],
-  editable = true,
+  editable = false,
   class: className,
   _component,
-  "data-children-prop": childrenDataProp = "contentSections",
+  "data-children-prop": childrenDataProp,
   ...htmlAttributes
 } = Astro.props;
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "contentSections" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 ---
 
 <div class:list={["slide", className]} role="group" {...htmlAttributes}>
   <div class="slide__content" {...arrayDataAttributes}>
     <slot>
-      {contentSections && <Component contentSections={contentSections} editable={editable} />}
+      {contentSections && <Component contentSections={contentSections} editable={!!effectiveChildrenProp} />}
     </slot>
   </div>
 </div>

@@ -14,14 +14,13 @@ const {
   imageSource = "",
   imageAlt = "",
   minSplitWidth = 0,
-  editable = true,
   class: className,
   _component,
   ...htmlAttributes
 } = Astro.props;
 ---
 
-<CarouselSlide {...htmlAttributes} editable={false}>
+<CarouselSlide {...htmlAttributes}>
   <Card
     class:list={["feature-slider-item", className]}
     paddingHorizontal="xs"

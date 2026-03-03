@@ -15,8 +15,8 @@ const {
   editable = false,
   class: className,
   label,
-  "data-first-prop": customFirstDataProp = "firstColumnContentSections",
-  "data-second-prop": customSecondDataProp = "secondColumnContentSections",
+  "data-first-prop": customFirstDataProp,
+  "data-second-prop": customSecondDataProp,
   _component,
   ...htmlAttributes
 } = Astro.props;
@@ -25,30 +25,27 @@ if (!htmlAttributes.id && label) {
   htmlAttributes.id = slugifyLabel(label);
 }
 
+const effectiveFirstProp = customFirstDataProp ?? (editable ? "firstColumnContentSections" : null);
+const effectiveSecondProp = customSecondDataProp ?? (editable ? "secondColumnContentSections" : null);
+
 // Get content blocks and prop names based on reverse setting
 const firstSplitBlocks = reverse ? secondColumnContentSections : firstColumnContentSections;
 const secondSplitBlocks = reverse ? firstColumnContentSections : secondColumnContentSections;
-const firstPropName = reverse ? customSecondDataProp : customFirstDataProp;
-const secondPropName = reverse ? customFirstDataProp : customSecondDataProp;
+const firstPropName = reverse ? effectiveSecondProp : effectiveFirstProp;
+const secondPropName = reverse ? effectiveFirstProp : effectiveSecondProp;
 const firstSlotName = reverse ? "second" : "first";
 const secondSlotName = reverse ? "first" : "second";
 const firstPaneUsesSlot = Astro.slots.has(firstSlotName);
 const secondPaneUsesSlot = Astro.slots.has(secondSlotName);
-const firstPaneEditable = editable && !firstPaneUsesSlot;
-const secondPaneEditable = editable && !secondPaneUsesSlot;
+const firstPaneEditable = !!firstPropName && !firstPaneUsesSlot;
+const secondPaneEditable = !!secondPropName && !secondPaneUsesSlot;
 
-const arrayDataAttributesFirst = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": firstPropName,
-    }
+const arrayDataAttributesFirst = firstPropName
+  ? { "data-editable": "array", "data-prop": firstPropName }
   : {};
 
-const arrayDataAttributesSecond = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": secondPropName,
-    }
+const arrayDataAttributesSecond = secondPropName
+  ? { "data-editable": "array", "data-prop": secondPropName }
   : {};
 
 const getReversedDistributionMode = (mode: string) => {

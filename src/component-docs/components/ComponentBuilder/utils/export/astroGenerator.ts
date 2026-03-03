@@ -235,7 +235,7 @@ export function generateAstroFile(
     )
     .join("\n\n");
 
-  const standardProps = ["label", "editable = true", "class: className", "_component"];
+  const standardProps = ["label", "class: className", "_component"];
   const allProps = [...standardProps, ...Array.from(exposedProps), "...htmlAttributes"];
   const propsDestructuring = allProps
     .map((prop, idx) => `  ${prop}${idx < allProps.length - 1 ? "," : ""}`)
@@ -379,30 +379,18 @@ function formatComponentBlock(
   if (isRootComponent && rootComponentName) {
     propsList.push(`class:list={["${rootComponentName}", className]}`);
 
-    if (freeformSlotProps.length > 0) {
-      propsList.push("editable={editable}");
+    for (const slotProp of freeformSlotProps) {
+      const renamedKey = originalNode?.[`_renamed_${slotProp}`] || slotProp;
 
-      for (const slotProp of freeformSlotProps) {
-        const renamedKey = originalNode?.[`_renamed_${slotProp}`] || slotProp;
-
-        if (renamedKey !== slotProp) {
-          propsList.push(`data-children-prop="${renamedKey}"`);
-        }
-      }
-    } else {
-      propsList.push("editable={false}");
+      propsList.push(`data-children-prop="${renamedKey}"`);
     }
 
     propsList.push("{...htmlAttributes}");
   } else if (freeformSlotProps.length > 0) {
-    propsList.push("editable={true}");
-
     for (const slotProp of freeformSlotProps) {
       const renamedKey = originalNode?.[`_renamed_${slotProp}`] || slotProp;
 
-      if (renamedKey !== slotProp) {
-        propsList.push(`data-children-prop="${renamedKey}"`);
-      }
+      propsList.push(`data-children-prop="${renamedKey}"`);
     }
   }
 

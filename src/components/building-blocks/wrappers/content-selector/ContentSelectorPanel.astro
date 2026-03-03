@@ -5,12 +5,12 @@ import Heading from "@core-elements/heading/Heading.astro";
 const {
   title,
   contentSections,
-  editable = true,
+  editable = false,
   checked = false,
   groupName = "content-selector-tabs",
   navigationPosition = "start",
   _component,
-  "data-children-prop": childrenDataProp = "contentSections",
+  "data-children-prop": childrenDataProp,
   ...htmlAttributes
 } = Astro.props;
 
@@ -19,11 +19,9 @@ const tabId = `tab-${uniqueId}`;
 const panelId = `panel-${uniqueId}`;
 const tabLabelId = `tablabel-${uniqueId}`;
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "contentSections" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 ---
 
@@ -49,13 +47,12 @@ const arrayDataAttributes = editable
       size="h3"
       alignX={navigationPosition === "top" ? "center" : "start"}
       class="content-selector-tab-heading"
-      editable={false}
     />
   </label>
   <div class="content-selector-panel" id={panelId} role="tabpanel" aria-labelledby={tabLabelId}>
     <div class="content-selector-panel-content" {...arrayDataAttributes}>
       <slot>
-        {contentSections && <RenderBlock contentSections={contentSections} editable={editable} />}
+        {contentSections && <RenderBlock contentSections={contentSections} editable={!!effectiveChildrenProp} />}
       </slot>
     </div>
   </div>

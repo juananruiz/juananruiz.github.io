@@ -19,7 +19,6 @@ const {
   colorScheme = "inherit",
   backgroundColor,
   paddingVertical = "4xl",
-  editable = true,
   class: className,
   _component,
   ...htmlAttributes
@@ -48,7 +47,7 @@ const {
       <SimpleText class="eyebrow" data-prop="eyebrow" text={eyebrow} />
       <Heading level="h1" size="2xl" data-prop="heading">{heading}</Heading>
       <Text class="subtext" data-prop="subtext" text={subtext} />
-      <ButtonGroup class="buttons-container" buttonSections={buttonSections} editable={true} />
+      <ButtonGroup class="buttons-container" buttonSections={buttonSections} data-children-prop="buttonSections" />
     </Fragment>
     <Fragment slot="second">
       <Image

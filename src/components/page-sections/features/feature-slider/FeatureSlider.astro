@@ -11,7 +11,6 @@ const {
   paddingVertical = "4xl",
   class: className,
   slides = [],
-  editable = false,
   _component,
   ...htmlAttributes
 } = Astro.props;
@@ -33,7 +32,6 @@ const {
     autoPlay={false}
     autoScroll={false}
     data-children-prop="slides"
-    editable={true}
   >
     {
       slides.map((slide: SlideProps, index: number) => (

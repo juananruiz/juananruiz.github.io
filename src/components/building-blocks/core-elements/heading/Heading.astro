@@ -10,19 +10,16 @@ const {
   iconName,
   iconPosition = "before",
   class: className,
-  editable = true,
-  "data-prop": customDataProp = "text",
+  editable = false,
+  "data-prop": customDataProp,
   _component,
   ...htmlAttributes
 } = Astro.props;
 
-const textDataAttributes =
-  editable && customDataProp
-    ? {
-        "data-editable": "text",
-        "data-prop": customDataProp,
-      }
-    : {};
+const effectiveDataProp = customDataProp ?? (editable ? "text" : null);
+const textDataAttributes = effectiveDataProp
+  ? { "data-editable": "text", "data-prop": effectiveDataProp }
+  : {};
 
 const md = MarkdownIt({ html: true });
 let MarkdownText = text ? md.renderInline(text) : "";

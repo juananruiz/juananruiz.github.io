@@ -7,17 +7,15 @@ const {
   items,
   alignX = "start",
   class: className,
-  "data-children-prop": childrenDataProp = "items",
+  "data-children-prop": childrenDataProp,
   editable = false,
   _component,
   ...htmlAttributes
 } = Astro.props;
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "items" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 const hasItems = items?.length > 0;
 const hasSlotContent = Astro.slots.has("default");
@@ -33,7 +31,7 @@ if (!_component && !hasItems && !hasSlotContent) return;
           <DefinitionListItem
             data-id="building-blocks/core-elements/definition-list/definition-list-item"
             data-editable="array-item"
-            editable={editable}
+            editable={!!effectiveChildrenProp}
             {...item}
           />
         ))

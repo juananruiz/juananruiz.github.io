@@ -16,7 +16,7 @@ const {
   editable = false,
   class: className,
   _component,
-  "data-children-prop": childrenDataProp = "contentSections",
+  "data-children-prop": childrenDataProp,
   ...htmlAttributes
 } = Astro.props;
 
@@ -32,11 +32,10 @@ if (!htmlAttributes.id && label) {
   htmlAttributes.id = slugifyLabel(label);
 }
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const hasContentSections = contentSections !== undefined;
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "contentSections" : null);
+const arrayDataAttributes = effectiveChildrenProp && hasContentSections
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 ---
 
@@ -50,7 +49,7 @@ const arrayDataAttributes = editable
     source={source}
     alt={alt}
     priority={priority}
-    editable={editable}
+    editable={hasContentSections && !!effectiveChildrenProp}
     data-prop-src="backgroundImage.source"
     data-prop-alt="backgroundImage.alt"
     positionVertical={positionVertical}
@@ -74,7 +73,7 @@ const arrayDataAttributes = editable
       {...arrayDataAttributes}
     >
       <slot>
-        {contentSections && <Component contentSections={contentSections} editable={editable} />}
+        {contentSections && <Component contentSections={contentSections} editable={!!effectiveChildrenProp} />}
       </slot>
     </div>
   </div>

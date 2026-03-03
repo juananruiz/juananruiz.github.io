@@ -97,13 +97,11 @@ const pageDescription =
                         source={post.data.image}
                         alt={post.data.title}
                         aspectRatio="landscape"
-                        editable={false}
                       />
                     )}
                     <SimpleText
                       size="sm"
                       style="color: var(--color-text-muted); margin-bottom: var(--spacing-xs);"
-                      editable={false}
                     >
                       {pubDate} • {post.data.author || "Anonymous"}
                     </SimpleText>
@@ -111,14 +109,12 @@ const pageDescription =
                       level="h3"
                       size="md"
                       style="margin-bottom: var(--spacing-md); margin-top: var(--spacing-sm);"
-                      editable={false}
                     >
                       {post.data.title}
                     </Heading>
                     <SimpleText
                       size="sm"
                       style="color: var(--color-text-muted); margin-top: 0;"
-                      editable={false}
                     >
                       {post.data.description}
                     </SimpleText>
@@ -130,7 +126,7 @@ const pageDescription =
           <Pagination page={page} showArrows={true} style="margin-top: var(--spacing-2xl);" />
         </>
       ) : (
-        <SimpleText alignX="center" style="margin-top: var(--spacing-2xl);" editable={false}>
+        <SimpleText alignX="center" style="margin-top: var(--spacing-2xl);">
           No blog posts yet. Check back soon!
         </SimpleText>
       )

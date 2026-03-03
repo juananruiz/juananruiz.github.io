@@ -9,7 +9,7 @@ const {
   class: className,
   label,
   editable = false,
-  "data-children-prop": childrenDataProp = "items",
+  "data-children-prop": childrenDataProp,
   _component,
   ...htmlAttributes
 } = Astro.props;
@@ -21,11 +21,9 @@ if (!htmlAttributes.id && label) {
 const uniqueId = crypto.randomUUID();
 const groupName = `tabs-${uniqueId}`;
 
-const arrayDataAttributes = editable
-  ? {
-      "data-editable": "array",
-      "data-prop": childrenDataProp,
-    }
+const effectiveChildrenProp = childrenDataProp ?? (editable ? "items" : null);
+const arrayDataAttributes = effectiveChildrenProp
+  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
   : {};
 
 const hasItems = items?.length > 0;
@@ -50,7 +48,7 @@ if (!_component && !hasItems && !hasSlotContent) return;
             checked={index === 0}
             groupName={groupName}
             navigationPosition={navigationPosition}
-            editable={editable}
+            editable={!!effectiveChildrenProp}
             data-editable="array-item"
           />
         ))

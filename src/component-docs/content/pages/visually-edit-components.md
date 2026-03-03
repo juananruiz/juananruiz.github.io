@@ -31,7 +31,7 @@ You don't need to know the underlying HTML structure — the component takes car
 
 **`renderBlock.astro` marks array items automatically.** When sections are rendered through `renderBlock`, each one gets `data-editable="array-item"` without you writing it.
 
-**Wrapper components handle array containers.** Components like `ButtonGroup`, `Grid`, and `Accordion` add `data-editable="array"` internally when you pass `editable={true}`. You just specify which prop holds the array.
+**Wrapper components handle array containers.** Components like `ButtonGroup`, `Grid`, and `Accordion` add `data-editable="array"` internally when you pass `data-children-prop`. You just specify which prop holds the array.
 
 This means at the page section level, you're mostly passing props to building blocks rather than writing raw `data-*` attributes yourself.
 
@@ -60,18 +60,17 @@ When an editor clicks this image, CloudCannon opens a picker. The selected file 
 
 ## Array editing
 
-Some components contain arrays of child components, like a row of buttons or a set of accordion items. Use `data-children-prop` and `editable` to make them editable inline:
+Some components contain arrays of child components, like a row of buttons or a set of accordion items. Pass `data-children-prop` to make them editable inline:
 
 ```astro
 <ButtonGroup
   buttonSections={buttonSections}
   alignX="center"
-  editable={true}
   data-children-prop="buttonSections"
 />
 ```
 
-`ButtonGroup` handles the rest internally — it adds `data-editable="array"` to its container so CloudCannon knows this element holds an array of children that can be added, removed, and reordered in the preview.
+`ButtonGroup` handles the rest internally — it adds `data-editable="array"` to its container so CloudCannon knows this element holds an array of children that can be added, removed, and reordered in the preview. Setting `data-children-prop` implies editability, just like `data-prop` does for text components.
 
 ## Putting it all together
 
@@ -84,13 +83,12 @@ Here's [CTA Center](/component-docs/components/page-sections/ctas/cta-center/) a
   <ButtonGroup
     buttonSections={buttonSections}
     alignX="center"
-    editable={true}
     data-children-prop="buttonSections"
   />
 </CustomSection>
 ```
 
-Three attributes at the page section level, and the building blocks handle the rest. Editors can update the heading and subtext inline, and add, remove, or reorder buttons without leaving the visual preview.
+Three `data-*` attributes at the page section level, and the building blocks handle the rest. Editors can update the heading and subtext inline, and add, remove, or reorder buttons without leaving the visual preview. Notice there's no `editable` prop — `data-prop` and `data-children-prop` are all you need to signal editability.
 
 Browse any page section in the component docs to see more working examples.
 
