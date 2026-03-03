@@ -103,13 +103,14 @@ Or add it in CloudCannon by clicking "Add Page Section" and picking "Section Int
 
 Prefer visual composition over hand-writing files? Use the [Component Builder](/component-docs/component-builder/) to scaffold this faster:
 
-1. Open the Component Builder and choose your building blocks (for example, Heading + Text inside a section wrapper).
-2. Configure labels and default content so the section is clear in the CloudCannon picker.
-3. Export the generated package.
-4. Move the exported files into the matching directory under `src/components/` (e.g. `src/components/page-sections/info-blocks/section-intro/`).
-5. Confirm the `_component` path in the generated structure-value file matches the folder path.
+1. Open the Component Builder. Under the Custom Section, press the "Add to Content Sections" button. Select Heading, then repeat and select Text.
+2. Both Heading and Text expose a prop called `text`, which causes a validation error at the same level. To fix this, click the Heading component to open the props sidebar and change the Exposed Name from `text` to `heading`. Do the same for Text, changing it to `subtext`. You can also expose other props if you want editors to be able to configure them.
+3. Select Export Component in the top bar. Choose "Info Blocks" for the category and enter `section-intro` for the component name. Select "Download Zip".
+4. Unzip and move the exported files into `src/components/page-sections/info-blocks/section-intro/`.
 
 After that, add the section in CloudCannon from "Add Page Section" just like any hand-built component.
+
+This is a good way to scaffold a new component. From there, you can add your own HTML, styles, and scripts to customize it further.
 
 ## Choosing how much control editors get
 
@@ -178,37 +179,23 @@ FAQ Section is a good example. The developer defines the overall section with a 
 
 The section always looks like an FAQ — heading on top, accordion below, consistent spacing. But inside each accordion item, editors can add whatever blocks they need. They're not limited to plain text; they could drop in images, code blocks, or nested grids if the content calls for it.
 
-Content Selector (tabs) follows the same pattern. The developer defines the tabbed interface. Editors control the tab titles and can compose the content within each panel freely.
-
-Team Grid takes a more constrained version of this approach. Editors can add and remove team members from the grid, but each team member follows a fixed structure (name, role, bio, photo). There's no `contentSections` inside each item — just specific fields.
-
 ### Which approach to use
 
 There's no single right answer. Most projects use all three:
 
 - **Structured components** for sections that should always look consistent — CTAs, heroes, pricing tables, testimonials. The developer makes the design decisions once and editors stay within those guardrails.
 - **Custom Section** for pages where editors need full creative control, or as a quick way to prototype layouts before committing to a structured component.
-- **Hybrid components** for sections that need a recognizable structure but flexible content within it — FAQs, tabbed content, feature grids, team pages.
-
-A common workflow: start with Custom Section to let editors experiment, then once a layout pattern stabilizes, extract it into a structured component with the right props and defaults. The three-file pattern is the same either way.
-
-## Troubleshooting
-
-**Component doesn't appear on the page.** Check that the `_component` path in your page frontmatter exactly matches the folder path under `src/components/`. The path is case-sensitive and uses the kebab-case folder name, not the PascalCase filename. If the path is wrong, `renderBlock` logs a warning to the console listing all available components.
-
-**Component doesn't show up in CloudCannon's picker.** Make sure the `structure-value.yml` file exists and that its `_component` value matches the folder path. CloudCannon discovers components through the `_structures_from_glob` setting in `cloudcannon.config.yml` — verify your file matches the expected glob pattern.
-
-**Inputs don't appear in CloudCannon's sidebar.** Check that `_inputs_from_glob` in the structure-value file points to the correct path for your inputs file.
+- **Hybrid components** for sections that need a recognizable structure but flexible content within it — FAQs, tabbed content, forms.
 
 ## Going further
 
-This was intentionally minimal. When you're ready to add more, look at the existing page sections for patterns:
+You can push this much further, allowing editors to control any prop or setting you'd like. The existing page sections show how:
 
 - **[CTA Center](/component-docs/components/page-sections/ctas/cta-center/)** adds buttons, color schemes, and background options
 - **[FAQ Section](/component-docs/components/page-sections/info-blocks/faq-section/)** uses accordion items with expand/collapse behavior
 
-Each one follows the same three-file pattern, just with more props and building blocks composed together.
+Each follows the same three-file pattern, just with more props and building blocks composed together.
 
 ## Next up
 
-Your component renders on the page, but editors can't click on it to make changes yet. Head to [Visually Edit Components](/component-docs/visually-edit-components/) to wire up the editing experience.
+Your component is already visually editable — editors can click on the heading and subtext to edit them inline. Head to [How Visual Editing Works](/component-docs/visually-edit-components/) to understand the mechanism and learn how to handle images and arrays too.

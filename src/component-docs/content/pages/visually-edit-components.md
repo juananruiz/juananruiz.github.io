@@ -1,13 +1,13 @@
 ---
-title: Making Components Visually Editable
+title: How Visual Editing Works
 contentSections: []
 ---
 
-# Making Components Visually Editable
+# How Visual Editing Works
 
-You've built a page section. It renders on the page and works in code. Now let's make it fully editable in CloudCannon's visual editor so content editors can click, type, and drag directly on the live preview.
+If you followed the previous guide, the component you built was already visually editable. Editors can click on the heading and subtext to edit them directly in CloudCannon's visual editor. That worked because the `Heading` and `Text` building blocks handle editable regions automatically when you pass `data-prop`.
 
-If you followed the previous guide, you already used `data-prop` on the `Heading` and `Text` building blocks. That was enough to get basic editing working. This page explains the full picture: what those attributes do, how they connect to CloudCannon, and how to handle images and arrays too.
+This page explains the full picture: what those attributes do, how they connect to CloudCannon, and how to handle images and arrays too.
 
 ## What are editable regions?
 
@@ -50,16 +50,10 @@ By default, `Heading` and `Text` bind to their own `text` prop. When you pass `d
 
 ## Image editing
 
-For images, map the source and alt text props and enable the image picker with `data-editable="image"`:
+For images, map the source and alt text props:
 
 ```astro
-<Image
-  source={imageSource}
-  alt={imageAlt}
-  data-prop-src="imageSource"
-  data-prop-alt="imageAlt"
-  data-editable="image"
-/>
+<Image source={imageSource} alt={imageAlt} data-prop-src="imageSource" data-prop-alt="imageAlt" />
 ```
 
 When an editor clicks this image, CloudCannon opens a picker. The selected file writes back to `imageSource` and the alt text to `imageAlt`.
