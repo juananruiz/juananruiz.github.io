@@ -4,8 +4,7 @@ spacing: null
 blocks:
   _component: building-blocks/wrappers/carousel
   slides:
-    - _component: building-blocks/wrappers/carousel/carousel-slide
-      contentSections:
+    - contentSections:
         - _component: building-blocks/core-elements/heading
           text: Slide 1
           level: h2
@@ -13,8 +12,7 @@ blocks:
         - _component: building-blocks/core-elements/text
           alignX: center
           text: This is the first slide of the carousel.
-    - _component: building-blocks/wrappers/carousel/carousel-slide
-      contentSections:
+    - contentSections:
         - _component: building-blocks/core-elements/heading
           text: Slide 2
           level: h2
@@ -22,8 +20,7 @@ blocks:
         - _component: building-blocks/core-elements/text
           text: This is the second slide of the carousel.
           alignX: center
-    - _component: building-blocks/wrappers/carousel/carousel-slide
-      contentSections:
+    - contentSections:
         - _component: building-blocks/core-elements/heading
           text: Slide 3
           level: h2
@@ -36,4 +33,10 @@ blocks:
   autoScroll: false
   slideWidthPercent: 100
   minSlideWidth: 0
+
+
+
+
+
+
 ---

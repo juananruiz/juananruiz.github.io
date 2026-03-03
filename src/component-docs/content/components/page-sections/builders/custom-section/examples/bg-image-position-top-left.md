@@ -11,7 +11,9 @@ blocks:
     positionVertical: top
     positionHorizontal: left
   contentSections:
-    - _component: 'building-blocks/core-elements/heading'
+    - _component: building-blocks/core-elements/text
       alignX: end
       text: Build bold. Launch fast.
+
+
 ---

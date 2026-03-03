@@ -7,9 +7,11 @@ blocks:
   paddingHorizontal: sm
   paddingVertical: sm
   contentSections:
-    - _component: 'building-blocks/core-elements/heading'
+    - _component: building-blocks/core-elements/heading
       text: 'No Background Card'
       level: h3
-    - _component: 'building-blocks/core-elements/text'
+    - _component: building-blocks/core-elements/text
       text: 'This card has no background color.'
+
+
 ---

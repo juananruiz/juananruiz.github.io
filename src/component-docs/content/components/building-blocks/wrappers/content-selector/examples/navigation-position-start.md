@@ -47,9 +47,11 @@ blocks:
           text: '30‑day returns. Unused items only. Full refund once received.'
           alignX: start
           size: md
-        - _component: building-blocks/core-elements/button
+        - _component: building-blocks/core-elements/text
           text: Start a return
           link: #
           variant: secondary
           size: md
+
+
 ---

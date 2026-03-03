@@ -33,7 +33,7 @@ const { heading = "", subtext = "", buttonSections = [], ...rest } = Astro.props
     )
   }
   {subtext && <SimpleText size="md">{subtext}</SimpleText>}
-  {buttonSections?.length > 0 && <ButtonGroup buttonSections={buttonSections} />}
+  {buttons?.length > 0 && <ButtonGroup buttonSections={buttonSections} />}
 </CustomSection>
 ```
 

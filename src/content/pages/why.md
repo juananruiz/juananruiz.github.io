@@ -30,32 +30,28 @@ pageSections:
     singleOpen: true
     openFirst: false
     items:
-      - _component: building-blocks/wrappers/accordion/accordion-item
-        title: How does the Component Starter work?
+      - title: How does the Component Starter work?
         contentSections:
           - _component: building-blocks/core-elements/text
             text: >-
               We give you [straightforward building blocks](/component-docs/)
               without hiding anything behind layers of abstraction. You see
               everything that's happening, and stay in control.
-      - _component: building-blocks/wrappers/accordion/accordion-item
-        title: What's included in the Component Starter?
+      - title: What's included in the Component Starter?
         contentSections:
           - _component: building-blocks/core-elements/text
             text: >-
               Lean HTML, CSS, and small touches of vanilla JavaScript. No dead
               weight, no surprise dependencies, just the pieces you actually
               need to build great pages.
-      - _component: building-blocks/wrappers/accordion/accordion-item
-        title: How is the Component Starter so fast?
+      - title: How is the Component Starter so fast?
         contentSections:
           - _component: building-blocks/core-elements/text
             text: >-
               Performance comes from keeping things lightweight. The framework
               handles image optimization and responsive patterns so your site
               stays quick without extra work.
-      - _component: building-blocks/wrappers/accordion/accordion-item
-        title: Can I customize the Component Starter?
+      - title: Can I customize the Component Starter?
         contentSections:
           - _component: building-blocks/core-elements/text
             text: >-
@@ -98,8 +94,7 @@ pageSections:
     rounded: false
   - _component: page-sections/features/feature-slider
     slides:
-      - _component: page-sections/features/feature-slider/feature-slider-item
-        eyebrow: First slide demonstration
+      - eyebrow: First slide demonstration
         title: Welcome to the carousel component
         description: >-
           This initial slide introduces visitors to the rotating content
@@ -110,8 +105,7 @@ pageSections:
         imageSource: /src/assets/images/component-docs/quiet-street.jpg
         imageAlt: High Performance
         minSplitWidth: 0
-      - _component: page-sections/features/feature-slider/feature-slider-item
-        eyebrow: Content transition example
+      - eyebrow: Content transition example
         title: Seamless navigation between slides
         description: >-
           As you move to the second position, observe how the previous content
@@ -122,8 +116,7 @@ pageSections:
         imageSource: /src/assets/images/component-docs/sheep.jpg
         imageAlt: Easy Maintenance
         minSplitWidth: 0
-      - _component: page-sections/features/feature-slider/feature-slider-item
-        eyebrow: Third position showcase
+      - eyebrow: Third position showcase
         title: Maintaining consistent formatting
         description: >-
           By the third slide, the pattern becomes clear. Each rotation maintains
@@ -133,8 +126,7 @@ pageSections:
         imageSource: /src/assets/images/component-docs/castle.jpg
         imageAlt: Move Faster
         minSplitWidth: 300
-      - _component: page-sections/features/feature-slider/feature-slider-item
-        eyebrow: Final slide
+      - eyebrow: Final slide
         title: Completing the carousel loop
         description: >-
           This fourth and final slide demonstrates how the component handles the
@@ -169,8 +161,7 @@ pageSections:
     heading: Meet the people
     subtext: We're a group of stock photography faces that fill out this team grid.
     teamMembers:
-      - _component: page-sections/people/team-grid/team-item
-        name: Alex Smith
+      - name: Alex Smith
         role: Lead Developer
         bio: >-
           As a fictional representation of a real employee, I exist solely to
@@ -179,8 +170,7 @@ pageSections:
           length for this component.
         imageSource: /src/assets/images/component-docs/profile1.jpg
         imageAlt: Alex Smith, CEO
-      - _component: page-sections/people/team-grid/team-item
-        name: Tom Rodriguez
+      - name: Tom Rodriguez
         role: Chief Technology Officer
         bio: >-
           I'm here to show how multiple team members look when displayed
@@ -188,8 +178,7 @@ pageSections:
           having exactly two sentences of biographical text.
         imageSource: /src/assets/images/component-docs/profile2.jpg
         imageAlt: Tom Rodriguez, CTO
-      - _component: page-sections/people/team-grid/team-item
-        name: Helen Kim
+      - name: Helen Kim
         role: Head of Design
         bio: >-
           I demonstrate how the component handles a third profile entry. My
@@ -198,8 +187,7 @@ pageSections:
           desktop display.
         imageSource: /src/assets/images/component-docs/profile3.jpg
         imageAlt: Helen Kim, Head of Design
-      - _component: page-sections/people/team-grid/team-item
-        name: Emily Watson
+      - name: Emily Watson
         role: Director of Operations
         bio: >-
           I round out the team grid to demonstrate how the layout adapts to a

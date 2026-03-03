@@ -25,14 +25,14 @@ blocks:
       path: '#'
       children: []
   buttonSections:
-    - _component: 'building-blocks/core-elements/button'
+    - _component: building-blocks/core-elements/button
       link: '#'
       variant: 'ghost'
       size: lg
       text: Search
       hideText: true
       iconName: magnifying-glass
-    - _component: 'building-blocks/core-elements/button'
+    - _component: building-blocks/core-elements/button
       link: '#'
       text: 'Careers'
       variant: 'ghost'
@@ -40,4 +40,5 @@ blocks:
       iconPosition: 'after'
       _target: 'blank'
       rel: 'noopener noreferrer'
+
 ---

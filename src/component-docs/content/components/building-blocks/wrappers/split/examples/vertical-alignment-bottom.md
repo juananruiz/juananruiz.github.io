@@ -4,12 +4,12 @@ spacing:
 blocks:
   _component: 'building-blocks/wrappers/split'
   firstColumnContentSections:
-    - _component: 'page-sections/builders/custom-section'
+    - _component: building-blocks/wrappers/card
       backgroundColor: 'accent'
       paddingHorizontal: sm
       paddingVertical: sm
       contentSections:
-        - _component: 'building-blocks/core-elements/text'
+        - _component: building-blocks/core-elements/text
           text: |-
             ## Side A
 
@@ -19,12 +19,12 @@ blocks:
 
             And here's even more text to really drive the point home.
   secondColumnContentSections:
-    - _component: 'page-sections/builders/custom-section'
+    - _component: building-blocks/wrappers/card
       backgroundColor: 'highlight'
       paddingHorizontal: sm
       paddingVertical: sm
       contentSections:
-        - _component: 'building-blocks/core-elements/text'
+        - _component: building-blocks/core-elements/text
           text: |-
             ## Side B
 
@@ -33,4 +33,7 @@ blocks:
   fixedWidth: null
   verticalAlignment: 'bottom'
   reverse: false
+
+
+
 ---

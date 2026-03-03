@@ -7,7 +7,8 @@ value:
   heading: Heading text
   subtext: Subtext placeholder text that will be replaced with actual content.
   buttonSections:
-    - text: My Button
+    - _component: building-blocks/core-elements/button
+      text: My Button
       hideText: false
       link: ""
       iconName: ""

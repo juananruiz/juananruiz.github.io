@@ -6,13 +6,14 @@ blocks:
   direction: row
   alignX: end
   buttonSections:
-    - _component: 'building-blocks/core-elements/button'
+    - _component: building-blocks/core-elements/button
       text: 'Button A'
       variant: secondary
-    - _component: 'building-blocks/core-elements/button'
+    - _component: building-blocks/core-elements/button
       text: 'Button B'
       variant: secondary
-    - _component: 'building-blocks/core-elements/button'
+    - _component: building-blocks/core-elements/button
       text: 'Button C'
       variant: secondary
+
 ---

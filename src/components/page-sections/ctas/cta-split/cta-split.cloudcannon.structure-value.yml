@@ -8,7 +8,8 @@ value:
   imageSource: /src/assets/images/component-docs/dunedin-cliff.jpg
   imageAlt: CTA image
   buttonSections:
-    - text: My Button
+    - _component: building-blocks/core-elements/button
+      text: My Button
       hideText: false
       link: ""
       iconName: ""

@@ -8,14 +8,15 @@ blocks:
   imageSource: /src/assets/images/component-docs/sunset.jpg
   imageAlt: 'Sunset.'
   buttonSections:
-    - _component: 'building-blocks/core-elements/button'
+    - _component: building-blocks/core-elements/button
       text: 'Create workspace'
       variant: primary
       size: md
       link: '/workspace'
-    - _component: 'building-blocks/core-elements/button'
+    - _component: building-blocks/core-elements/button
       text: 'Invite team'
       variant: secondary
       size: md
       link: '/invite'
+
 ---

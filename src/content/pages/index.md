@@ -97,36 +97,31 @@ pageSections:
     minItemWidth: 280
     maxItemWidth: 360
     features:
-      - _component: page-sections/features/feature-grid/feature-item
-        title: Web fundamentals
+      - title: Web fundamentals
         description: >-
           Semantic HTML. Lean CSS. JavaScript only when it's needed. The stack
           is boring by design, and that’s exactly why it works.
         iconName: cube
         iconColor: blue
-      - _component: page-sections/features/feature-grid/feature-item
-        title: Built for speed
+      - title: Built for speed
         description: >-
           Static-rendered, minimal payloads, zero waste. Built to be extremely
           fast from the first byte.
         iconName: bolt
         iconColor: yellow
-      - _component: page-sections/features/feature-grid/feature-item
-        title: Everything just fits
+      - title: Everything just fits
         description: >-
           Simple, predictable components that play nice together. Build bigger
           pieces without creating a maintenance mess.
         iconName: puzzle-piece
         iconColor: green
-      - _component: page-sections/features/feature-grid/feature-item
-        title: Controlled editing
+      - title: Controlled editing
         description: >-
           Enough freedom for editors to move fast. Enough structure for
           developers to sleep at night.
         iconName: pencil
         iconColor: purple
-      - _component: page-sections/features/feature-grid/feature-item
-        title: Adaptable
+      - title: Adaptable
         description: >-
           Purposefully plain styling. The whole component starter adapts to your
           designs without a fight.
