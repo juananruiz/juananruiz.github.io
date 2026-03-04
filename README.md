@@ -2,9 +2,9 @@
 
 A starter template with 40+ Astro components, each built for visual editing in [CloudCannon](https://cloudcannon.com/). You clone it, you own it. Every component is your source code to modify, extend, or delete.
 
-There's no package dependency to manage. You own the source code and decide when (or if) to pull in future improvements from the core repo.
+All the source code and content is yours, it lives in your repository and you decide when (or if) to pull in future improvements from the core repo.
 
-The design is intentionally unbranded so it can morph into any brand you want. Components are built on web fundamentals: vanilla CSS, semantic HTML, and a sprinkling of vanilla JS only when something can't be done with CSS alone. Performance and accessibility are baked in from the start.
+The design is intentionally unbranded so it can morph into any brand you want. Update CSS variables and the entire site shifts to match your colors, fonts, and identity. Components are built on web fundamentals: vanilla CSS, semantic HTML, and a sprinkling of vanilla JS only when something can't be done with CSS alone. Performance and accessibility are baked in from the start.
 
 ## Quick Start
 
