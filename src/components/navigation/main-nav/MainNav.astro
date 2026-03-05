@@ -62,58 +62,58 @@ const mobileNavData = [
   />
 </CustomSection>
 
-<style is:global>
+<style>
   @layer page-sections {
-    .main-nav {
+    :global(.main-nav) {
       background-color: var(--color-bg);
       padding-block: var(--spacing-md);
       position: sticky;
       top: 0;
       z-index: var(--layer-2);
 
-      .desktop-main-nav.bar,
-      .desktop-button-group.button-group {
+      :global(.desktop-main-nav.bar),
+      :global(.desktop-button-group.button-group) {
         @container (max-width: 768px) {
           display: none;
         }
       }
 
-      .main-nav-logo {
+      :global(.main-nav-logo) {
         margin-top: 0 !important;
       }
 
-      .nav-hamburger.mobile-button {
+      :global(.nav-hamburger.mobile-button) {
         @container (min-width: 769px) {
           display: none;
         }
       }
 
-      > .outer-content > .content {
+      > :global(.outer-content) > :global(.content) {
         align-items: center;
         container-type: inline-size;
         display: flex;
         flex-wrap: wrap;
         gap: var(--spacing-md);
 
-        > a > .image img {
+        > a > :global(.image) :global(img) {
           height: 1.8em;
           max-width: min(20em, 100%);
           width: auto;
         }
 
-        .button-group {
+        :global(.button-group) {
           margin-top: 0;
         }
       }
 
-      > .outer-content > .content > .nav-end {
+      > :global(.outer-content) > :global(.content) > .nav-end {
         align-items: center;
         display: flex;
         flex-shrink: 0;
         justify-content: flex-end;
         margin-left: auto;
 
-        > .button-group {
+        > :global(.button-group) {
           container-type: normal;
         }
       }

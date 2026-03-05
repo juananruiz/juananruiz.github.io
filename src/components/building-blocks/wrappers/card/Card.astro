@@ -60,10 +60,7 @@ const usesBeforeContentSections = !hasBeforeSlot && showBeforeAfter && beforeCon
 const usesAfterContentSections = !hasAfterSlot && showBeforeAfter && afterContentSections;
 ---
 
-<div
-  class:list={["card", className]}
-  {...htmlAttributes}
->
+<div class:list={["card", className]} {...htmlAttributes}>
   <Tag
     {...link && { href: link }}
     class:list={["card-inner", rounded && "rounded", border && "border"]}
@@ -111,7 +108,11 @@ const usesAfterContentSections = !hasAfterSlot && showBeforeAfter && afterConten
         {...arrayDataAttributes}
       >
         <slot>
-          {contentSections && <Component contentSections={contentSections} editable={!!effectiveChildrenProp} />}
+          {
+            contentSections && (
+              <Component contentSections={contentSections} editable={!!effectiveChildrenProp} />
+            )
+          }
         </slot>
       </div>
     </div>
@@ -130,7 +131,7 @@ const usesAfterContentSections = !hasAfterSlot && showBeforeAfter && afterConten
   </Tag>
 </div>
 
-<style is:global>
+<style>
   @layer components {
     .card {
       display: block;
@@ -143,6 +144,7 @@ const usesAfterContentSections = !hasAfterSlot && showBeforeAfter && afterConten
       > .card-inner {
         color: inherit;
         display: block;
+        height: 100%;
         overflow: hidden;
         position: relative;
         text-decoration: none;
@@ -170,11 +172,11 @@ const usesAfterContentSections = !hasAfterSlot && showBeforeAfter && afterConten
             position: relative;
             z-index: var(--layer-1);
 
-            > *:first-child {
+            > :global(*:first-child) {
               margin-top: 0 !important;
             }
 
-            > *:last-child {
+            > :global(*:last-child) {
               margin-bottom: 0 !important;
             }
 
@@ -287,11 +289,11 @@ const usesAfterContentSections = !hasAfterSlot && showBeforeAfter && afterConten
           position: relative;
           z-index: var(--layer-2);
 
-          > *:first-child {
+          > :global(*:first-child) {
             margin-top: 0 !important;
           }
 
-          > *:last-child {
+          > :global(*:last-child) {
             margin-bottom: 0 !important;
           }
         }
@@ -301,7 +303,7 @@ const usesAfterContentSections = !hasAfterSlot && showBeforeAfter && afterConten
           position: absolute;
         }
 
-        > .background-image {
+        > :global(.background-image) {
           z-index: var(--layer-1);
         }
 

@@ -348,7 +348,7 @@ function createNavItemData(item, level, parentGroupId) {
   });
 </script>
 
-<style is:global>
+<style>
   @layer components {
     .nav-toggle {
       display: none;
@@ -375,7 +375,7 @@ function createNavItemData(item, level, parentGroupId) {
       transition: transform var(--animation-normal) ease-in-out;
       z-index: var(--layer-5);
 
-      .mobile-logo-image {
+      :global(.mobile-logo-image) {
         margin-top: 0 !important;
       }
 
@@ -388,14 +388,14 @@ function createNavItemData(item, level, parentGroupId) {
         padding: var(--spacing-md);
 
         .mobile-logo {
-          svg {
+          :global(svg) {
             height: 100%;
             max-height: 3em;
             width: 100%;
           }
 
-          img,
-          .mobile-logo-image {
+          :global(img),
+          :global(.mobile-logo-image) {
             height: auto;
             max-height: 3em;
             max-width: min(20em, 100%);

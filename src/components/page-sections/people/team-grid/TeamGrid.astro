@@ -62,17 +62,17 @@ const {
   </Grid>
 </CustomSection>
 
-<style is:global>
+<style>
   @layer page-sections {
-    .team-grid-heading {
+    :global(.team-grid-heading) {
       margin-bottom: var(--spacing-sm);
     }
 
-    .team-grid-subtext {
+    :global(.team-grid-subtext) {
       margin-top: 0;
     }
 
-    .team-grid-grid {
+    :global(.team-grid-grid) {
       margin-top: var(--spacing-xl);
     }
   }

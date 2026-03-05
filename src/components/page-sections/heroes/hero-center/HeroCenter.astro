@@ -36,9 +36,9 @@ const {
   <ButtonGroup class="buttonSections" buttonSections={buttonSections} alignX="center" data-children-prop="buttonSections" />
 </CustomSection>
 
-<style is:global>
+<style>
   @layer page-sections {
-    .subtext p {
+    :global(.subtext) :global(p) {
       font-size: var(--font-size-lg);
     }
   }

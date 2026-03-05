@@ -37,7 +37,7 @@ if (!_component && !isValidName) {
   </span>
 </div>
 
-<style is:global>
+<style>
   @layer components {
     .icon {
       display: inline-block;
@@ -183,7 +183,7 @@ if (!_component && !isValidName) {
           width: fit-content;
         }
 
-        svg {
+        :global(svg) {
           max-height: 100%;
         }
       }

@@ -34,15 +34,13 @@ if (!htmlAttributes.id && label) {
 
 const hasContentSections = contentSections !== undefined;
 const effectiveChildrenProp = childrenDataProp ?? (editable ? "contentSections" : null);
-const arrayDataAttributes = effectiveChildrenProp && hasContentSections
-  ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
-  : {};
+const arrayDataAttributes =
+  effectiveChildrenProp && hasContentSections
+    ? { "data-editable": "array", "data-prop": effectiveChildrenProp }
+    : {};
 ---
 
-<section
-  class:list={["custom-section", className]}
-  {...htmlAttributes}
->
+<section class:list={["custom-section", className]} {...htmlAttributes}>
   <div
     class:list={["outer-content", rounded && "rounded"]}
     data-theme={colorScheme && colorScheme !== "inherit" ? colorScheme : undefined}
@@ -75,13 +73,17 @@ const arrayDataAttributes = effectiveChildrenProp && hasContentSections
       {...arrayDataAttributes}
     >
       <slot>
-        {contentSections && <Component contentSections={contentSections} editable={!!effectiveChildrenProp} />}
+        {
+          contentSections && (
+            <Component contentSections={contentSections} editable={!!effectiveChildrenProp} />
+          )
+        }
       </slot>
     </div>
   </div>
 </section>
 
-<style is:global>
+<style>
   @layer components {
     .custom-section {
       > .outer-content {
@@ -100,13 +102,11 @@ const arrayDataAttributes = effectiveChildrenProp && hasContentSections
           position: relative;
           z-index: var(--layer-1);
 
-          > [data-editable="array-item"]:first-child > *:first-child,
-          > :not([data-editable="array-item"]):first-child {
+          > :global(*:first-child) {
             margin-top: 0 !important;
           }
 
-          > [data-editable="array-item"]:last-child > *:last-child,
-          > :not([data-editable="array-item"]):last-child {
+          > :global(*:last-child) {
             margin-bottom: 0 !important;
           }
 
@@ -266,7 +266,7 @@ const arrayDataAttributes = effectiveChildrenProp && hasContentSections
           position: absolute;
         }
 
-        > .background-image {
+        > :global(.background-image) {
           z-index: var(--layer-1);
         }
 

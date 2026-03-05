@@ -61,7 +61,7 @@ if (!_component && !hasItems && !hasSlotContent) return;
   </div>
 </section>
 
-<style is:global>
+<style>
   @layer components {
     .content-selector {
       --content-selector-border-width: 1px;
@@ -71,54 +71,15 @@ if (!_component && !hasItems && !hasSlotContent) return;
         border: 0 solid var(--color-bg-muted);
         width: 100%;
 
-        .content-selector-tab {
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          display: block;
-          padding: var(--spacing-md);
-          position: relative;
-          transition: background-color var(--animation-normal) ease-in-out;
-          width: 100%;
-
-          &::before {
-            background: transparent;
-            content: "";
-            position: absolute;
-            transition:
-              transform var(--animation-normal),
-              background var(--animation-normal);
-          }
-
-          &:hover {
-            background: var(--color-state-hover);
-          }
-
-          > .content-selector-tab-heading {
-            margin: 0;
-          }
-        }
-
-        .content-selector-item > .content-selector-input:checked + .content-selector-tab::before {
+        &:not(:has(:global(.content-selector-item) > :global(.content-selector-input):checked))
+          :global(.content-selector-item):first-of-type
+          > :global(.content-selector-tab)::before {
           background: var(--color-border-strong);
         }
 
-        .content-selector-item
-          > .content-selector-input:checked
-          + .content-selector-tab
-          + .content-selector-panel {
-          display: block;
-        }
-
-        &:not(:has(.content-selector-item > .content-selector-input:checked))
-          .content-selector-item:first-of-type
-          > .content-selector-tab::before {
-          background: var(--color-border-strong);
-        }
-
-        &:not(:has(.content-selector-item > .content-selector-input:checked))
-          .content-selector-item:first-of-type
-          > .content-selector-panel {
+        &:not(:has(:global(.content-selector-item) > :global(.content-selector-input):checked))
+          :global(.content-selector-item):first-of-type
+          > :global(.content-selector-panel) {
           display: block;
         }
 
@@ -127,7 +88,7 @@ if (!_component && !hasItems && !hasSlotContent) return;
           display: grid;
           grid-template-columns: minmax(10rem, 20rem) minmax(0, 1fr);
 
-          .content-selector-tab {
+          :global(.content-selector-tab) {
             border-inline-start: var(--content-selector-border-width) solid var(--color-bg-muted);
             grid-column: 1;
 
@@ -138,7 +99,7 @@ if (!_component && !hasItems && !hasSlotContent) return;
             }
           }
 
-          .content-selector-panel {
+          :global(.content-selector-panel) {
             grid-column: 2;
             grid-row: 1 / span 999;
             padding: 0 var(--spacing-md);
@@ -151,7 +112,8 @@ if (!_component && !hasItems && !hasSlotContent) return;
           display: flex;
           flex-wrap: wrap;
 
-          .content-selector-tab {
+          :global(.content-selector-tab) {
+            order: -1;
             width: fit-content;
 
             &::before {
@@ -162,7 +124,7 @@ if (!_component && !hasItems && !hasSlotContent) return;
             }
           }
 
-          .content-selector-panel {
+          :global(.content-selector-panel) {
             flex-basis: 100%;
             margin-top: var(--spacing-md);
             padding: 0 var(--spacing-md);

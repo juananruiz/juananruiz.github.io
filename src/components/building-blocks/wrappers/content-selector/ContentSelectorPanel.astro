@@ -58,7 +58,7 @@ const arrayDataAttributes = effectiveChildrenProp
   </div>
 </div>
 
-<style is:global>
+<style>
   @layer components {
     .content-selector-item {
       display: contents;
@@ -68,13 +68,48 @@ const arrayDataAttributes = effectiveChildrenProp
       display: none;
     }
 
+    .content-selector-tab {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: block;
+      padding: var(--spacing-md);
+      position: relative;
+      transition: background-color var(--animation-normal) ease-in-out;
+
+      &::before {
+        background: transparent;
+        content: "";
+        position: absolute;
+        transition:
+          transform var(--animation-normal),
+          background var(--animation-normal);
+      }
+
+      &:hover {
+        background: var(--color-state-hover);
+      }
+
+      > :global(.content-selector-tab-heading) {
+        margin: 0;
+      }
+    }
+
+    .content-selector-input:checked + .content-selector-tab::before {
+      background: var(--color-border-strong);
+    }
+
+    .content-selector-input:checked + .content-selector-tab + .content-selector-panel {
+      display: block;
+    }
+
     .content-selector-panel {
       animation: fade-in var(--animation-slow) ease-in-out forwards;
       container-type: inline-size;
       display: none;
     }
 
-    .content-selector-panel-content > *:first-child {
+    .content-selector-panel-content > :global(*:first-child) {
       margin-top: 0 !important;
     }
   }

@@ -72,7 +72,7 @@ const authorDescriptionDataAttributes = effectiveAuthorDescProp
   </div>
 </blockquote>
 
-<style is:global>
+<style>
   @layer components {
     .testimonial {
       border-inline-start: 0;
@@ -98,23 +98,23 @@ const authorDescriptionDataAttributes = effectiveAuthorDescProp
         > .quote {
           margin: 0;
 
-          * {
+          :global(*) {
             font-size: var(--font-size-2xl);
           }
 
-          *:first-child {
+          :global(*:first-child) {
             margin-top: 0;
           }
 
-          *:last-child {
+          :global(*:last-child) {
             margin-bottom: 0;
           }
 
-          *:first-child::before {
+          :global(*:first-child)::before {
             content: "\201C";
           }
 
-          *:last-child::after {
+          :global(*:last-child)::after {
             content: "\201D";
           }
         }
@@ -130,17 +130,17 @@ const authorDescriptionDataAttributes = effectiveAuthorDescProp
             text-align: start;
           }
 
-          > .author-image {
+          > :global(.author-image) {
             aspect-ratio: var(--ratio-square);
             height: 80px;
             width: 80px;
 
-            picture {
+            :global(picture) {
               border-radius: var(--radius-full);
               overflow: hidden;
             }
 
-            img {
+            :global(img) {
               height: 100%;
             }
           }

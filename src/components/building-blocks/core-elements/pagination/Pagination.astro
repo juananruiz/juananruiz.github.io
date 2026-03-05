@@ -121,7 +121,7 @@ const getPageUrl = (pageNum: number) => {
   }
 </nav>
 
-<style is:global>
+<style>
   @layer components {
     .pagination {
       display: flex;
@@ -180,7 +180,7 @@ const getPageUrl = (pageNum: number) => {
         justify-content: center;
         min-width: 2.5rem;
 
-        .icon {
+        :global(.icon) {
           align-items: center;
           display: flex;
           justify-content: center;

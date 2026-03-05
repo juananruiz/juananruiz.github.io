@@ -68,7 +68,7 @@ if (!_component && !hasText && !hasSlotContent) return;
   </span>
 </Tag>
 
-<style is:global>
+<style>
   @layer components {
     .heading {
       margin-top: var(--spacing-lg);
@@ -76,12 +76,12 @@ if (!_component && !hasText && !hasSlotContent) return;
       > .heading-inner {
         display: block;
 
-        .heading-icon {
+        :global(.heading-icon) {
           bottom: 0.1em;
           margin-inline-end: 0.2em;
           position: relative;
 
-          &.heading-icon-after {
+          &:global(.heading-icon-after) {
             margin-inline: 0.2em 0;
           }
         }

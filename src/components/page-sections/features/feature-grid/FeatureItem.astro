@@ -41,14 +41,14 @@ const {
   </Card>
 </GridItem>
 
-<style is:global>
+<style>
   @layer page-sections {
-    .feature-title {
+    :global(.feature-title) {
       margin-bottom: var(--spacing-sm);
       margin-top: var(--spacing-sm);
     }
 
-    .feature-description {
+    :global(.feature-description) {
       margin-top: 0;
     }
   }

@@ -22,10 +22,7 @@ const textDataAttributes = effectiveDataProp
   : {};
 ---
 
-<li
-  class:list={["item", className]}
-  {...htmlAttributes}
->
+<li class:list={["item", className]} {...htmlAttributes}>
   <span class:list={["item-inner", showIcon && iconName && "list-item-has-icon"]}>
     {
       showIcon && iconName && (
@@ -38,7 +35,7 @@ const textDataAttributes = effectiveDataProp
   </span>
 </li>
 
-<style is:global>
+<style>
   @layer components {
     .item {
       > .item-inner {
@@ -52,15 +49,15 @@ const textDataAttributes = effectiveDataProp
           margin: 0;
         }
 
-        > .list-icon {
+        > :global(.list-icon) {
           display: inline-block;
           flex-shrink: 0;
           height: 1em;
-          margin-right: var(--spacing-em-xs);
-          vertical-align: -0.15em;
+          margin-inline-end: var(--spacing-em-xs);
+          vertical-align: 0.1em;
           width: 1em;
 
-          svg {
+          :global(svg) {
             display: block;
             height: 100%;
             width: 100%;

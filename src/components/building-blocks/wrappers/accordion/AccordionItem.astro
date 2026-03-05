@@ -26,12 +26,16 @@ const arrayDataAttributes = effectiveChildrenProp
   </summary>
   <div class="accordion-item-detail" {...arrayDataAttributes}>
     <slot>
-      {contentSections && <RenderBlock contentSections={contentSections} editable={!!effectiveChildrenProp} />}
+      {
+        contentSections && (
+          <RenderBlock contentSections={contentSections} editable={!!effectiveChildrenProp} />
+        )
+      }
     </slot>
   </div>
 </details>
 
-<style is:global>
+<style>
   @layer components {
     .accordion-item {
       border-bottom: 1px solid var(--color-border-subtle);
@@ -62,7 +66,7 @@ const arrayDataAttributes = effectiveChildrenProp
           display: none;
         }
 
-        .accordion-item-icon {
+        :global(.accordion-item-icon) {
           transition: transform var(--animation-normal) ease-out;
         }
       }
@@ -71,15 +75,14 @@ const arrayDataAttributes = effectiveChildrenProp
         padding-inline: var(--spacing-md);
         padding-bottom: var(--spacing-md);
 
-        > [data-editable="array-item"]:first-child > *:first-child,
-        > :not([data-editable="array-item"]):first-child {
+        > :global(*:first-child) {
           margin-top: 0 !important;
         }
       }
     }
 
     .accordion-item[open] {
-      > .accordion-item-title .accordion-item-icon {
+      > .accordion-item-title :global(.accordion-item-icon) {
         transform: rotate(180deg);
       }
 

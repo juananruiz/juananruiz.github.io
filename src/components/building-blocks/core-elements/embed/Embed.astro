@@ -15,13 +15,13 @@ const {
   <div class:list={["embed-content", `ratio-${aspectRatio}`]} set:html={html} />
 </div>
 
-<style is:global>
+<style>
   @layer components {
     .embed-wrapper {
       margin-top: var(--spacing-lg);
 
       > .embed-content {
-        > iframe {
+        > :global(iframe) {
           border: none;
           display: block;
           height: 100%;

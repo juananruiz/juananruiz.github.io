@@ -236,7 +236,7 @@ if (!_component && !hasSlides && !hasSlotContent) return;
   document.addEventListener("astro:page-load", setupCarousels);
 </script>
 
-<style is:global>
+<style>
   @layer components {
     .carousel {
       margin-top: var(--spacing-lg);
@@ -257,7 +257,7 @@ if (!_component && !hasSlides && !hasSlotContent) return;
           display: flex;
           flex-wrap: nowrap;
 
-          > .slide {
+          > :global(.slide) {
             flex-basis: calc(max(var(--slide-width, 100%), var(--min-slide-width, 0px)));
             flex-shrink: 0;
             width: 100%;
@@ -273,8 +273,8 @@ if (!_component && !hasSlides && !hasSlotContent) return;
           margin-top: var(--spacing-sm);
         }
 
-        > .controls-wrapper > .prev > .button-inner,
-        > .controls-wrapper > .next > .button-inner {
+        > .controls-wrapper > :global(.prev) > :global(.button-inner),
+        > .controls-wrapper > :global(.next) > :global(.button-inner) {
           background-color: var(--color-bg);
           border-radius: var(--radius-full);
           flex-shrink: 0;
@@ -291,7 +291,7 @@ if (!_component && !hasSlides && !hasSlotContent) return;
           justify-content: center;
         }
 
-        > .controls-wrapper > .indicators > .indicator {
+        > .controls-wrapper > .indicators > :global(.indicator) {
           aspect-ratio: 1/1;
           border: none;
           border-radius: var(--radius-full);
@@ -317,8 +317,8 @@ if (!_component && !hasSlides && !hasSlotContent) return;
         }
 
         &[data-show-arrows="false"] {
-          > .controls-wrapper > .prev,
-          > .controls-wrapper > .next {
+          > .controls-wrapper > :global(.prev),
+          > .controls-wrapper > :global(.next) {
             display: none;
           }
         }

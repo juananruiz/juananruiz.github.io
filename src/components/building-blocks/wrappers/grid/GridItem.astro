@@ -24,7 +24,7 @@ const arrayDataAttributes = effectiveChildrenProp
   </div>
 </div>
 
-<style is:global>
+<style>
   @layer components {
     .grid-item {
       container-type: inline-size;
@@ -32,11 +32,11 @@ const arrayDataAttributes = effectiveChildrenProp
         height: 100%;
       }
 
-      > .grid-item-content > *:only-child {
+      > .grid-item-content > :global(*:only-child) {
         height: 100%;
       }
 
-      > .grid-item-content > *:first-child {
+      > .grid-item-content > :global(*:first-child) {
         margin-top: 0 !important;
       }
     }

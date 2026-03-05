@@ -69,7 +69,7 @@ const inputType = multiple ? "checkbox" : "radio";
   </div>
 </fieldset>
 
-<style is:global>
+<style>
   @layer components {
     .segments {
       border: none;
@@ -121,18 +121,18 @@ const inputType = multiple ? "checkbox" : "radio";
             background-color: var(--color-bg-muted);
 
             &,
-            .segment-icon {
+            :global(.segment-icon) {
               color: var(--color-text-strong);
             }
           }
 
-          .segment-icon {
+          :global(.segment-icon) {
             flex-shrink: 0;
             height: 1em;
             width: 1em;
           }
 
-          .segment-icon + .segment-label {
+          :global(.segment-icon) + .segment-label {
             margin-inline-start: var(--spacing-em-xs);
           }
 
@@ -150,7 +150,7 @@ const inputType = multiple ? "checkbox" : "radio";
             z-index: 1;
           }
 
-          .segment-icon {
+          :global(.segment-icon) {
             color: var(--color-text-strong);
           }
         }
@@ -179,7 +179,7 @@ const inputType = multiple ? "checkbox" : "radio";
         border-inline-start: 0;
       }
 
-      > .segments-options.icon-only .segments-option .segment .segment-icon {
+      > .segments-options.icon-only .segments-option .segment :global(.segment-icon) {
         margin-block: var(--spacing-xs);
       }
     }
