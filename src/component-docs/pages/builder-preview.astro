@@ -13,9 +13,7 @@ if (Astro.request.url) {
 
   if (treeParam) {
     try {
-      const tree = JSON.parse(treeParam);
-
-      contentSections = tree[0]?.contentSections || [];
+      contentSections = JSON.parse(treeParam);
     } catch {
       // Invalid tree data
     }

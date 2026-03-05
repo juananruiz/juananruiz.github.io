@@ -276,6 +276,8 @@ class BuilderState {
     slotName: string,
     index: number
   ): ComponentNode {
+    const existingNames = this.collectExposedPropNames();
+
     const nodeToAdd = addComponentToSlotOperation(
       componentInfo,
       parentId,
@@ -286,6 +288,7 @@ class BuilderState {
       (info) => this.createComponentNode(info)
     );
 
+    this.autoRenameConflictingProps(nodeToAdd, existingNames);
     this.emit("treeChange");
 
     return nodeToAdd;
@@ -501,6 +504,74 @@ class BuilderState {
       for (const value of Object.values(node)) {
         if (Array.isArray(value) && value.length > 0 && value[0]?._component) {
           this.migrateNodeIds(value as ComponentNode[]);
+        }
+      }
+    }
+  }
+
+  /**
+   * Walk the component tree and collect every currently exposed prop name.
+   * A prop is exposed when `_hardcoded_<name>` is falsy or when a slot is
+   * in page-building mode (`_<name>_mode === "prop"`).
+   */
+  private collectExposedPropNames(
+    tree: ComponentNode[] = this._componentTree,
+    names: Set<string> = new Set()
+  ): Set<string> {
+    for (const node of tree) {
+      for (const key of Object.keys(node)) {
+        if (key.startsWith("_hardcoded_") && !node[key]) {
+          const original = key.replace("_hardcoded_", "");
+          names.add(((node[`_renamed_${original}`] as string) || original));
+        }
+
+        if (key.endsWith("_mode") && node[key] === "prop") {
+          const original = key.replace("_mode", "").substring(1);
+          names.add(((node[`_renamed_${original}`] as string) || original));
+        }
+      }
+
+      for (const value of Object.values(node)) {
+        if (Array.isArray(value) && value.length > 0 && value[0]?._component) {
+          this.collectExposedPropNames(value as ComponentNode[], names);
+        }
+      }
+    }
+
+    return names;
+  }
+
+  /**
+   * Rename any exposed props on `node` (and its nested children) whose name
+   * already exists in `existingNames`, appending `_2`, `_3`, etc.
+   */
+  private autoRenameConflictingProps(node: ComponentNode, existingNames: Set<string>): void {
+    for (const key of Object.keys(node)) {
+      if (!key.startsWith("_hardcoded_") || node[key]) continue;
+
+      const original = key.replace("_hardcoded_", "");
+      const currentName = (node[`_renamed_${original}`] as string) || original;
+
+      if (existingNames.has(currentName)) {
+        let suffix = 2;
+        let candidate = `${original}_${suffix}`;
+        while (existingNames.has(candidate)) {
+          suffix++;
+          candidate = `${original}_${suffix}`;
+        }
+        node[`_renamed_${original}`] = candidate;
+        existingNames.add(candidate);
+      } else {
+        existingNames.add(currentName);
+      }
+    }
+
+    for (const value of Object.values(node)) {
+      if (Array.isArray(value)) {
+        for (const child of value as ComponentNode[]) {
+          if (child && typeof child === "object" && child._component) {
+            this.autoRenameConflictingProps(child, existingNames);
+          }
         }
       }
     }
