@@ -64,7 +64,7 @@ collections_config:
             uploads: src/assets/images
           resize_style: contain
           width: 1920
-          height: 1080
+          height: 1280
       tags:
         type: array
         comment: Tags relevant to this post's content.
@@ -83,7 +83,7 @@ collections_config:
             uploads: src/assets/images
           resize_style: contain
           width: 1920
-          height: 1080
+          height: 1280
       image:
         type: image
         options:
@@ -91,7 +91,7 @@ collections_config:
             uploads: src/assets/images
           resize_style: contain
           width: 1920
-          height: 1080
+          height: 1280
 collection_groups:
   - heading: Content
     collections:

@@ -136,10 +136,7 @@ if (
 }
 ---
 
-<div
-  class:list={["image", className]}
-  {...htmlAttributes}
->
+<div class:list={["image", className]} {...htmlAttributes}>
   <div
     class:list={[
       "image-inner",
@@ -168,7 +165,7 @@ if (
           {...dataAttributes}
         />
       ) : (
-        <picture {...dataAttributes}>
+        <picture>
           <img
             src={source}
             alt={normalizedAlt}
@@ -177,6 +174,7 @@ if (
             fetchpriority={priority ? "high" : undefined}
             width={width}
             height={height}
+            {...dataAttributes}
           />
         </picture>
       )
