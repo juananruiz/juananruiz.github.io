@@ -1,6 +1,9 @@
 ---
 _schema: default
 title: Blog
+description: >-
+  Read our latest articles and insights on web development, design, and
+  technology.
 pageSections:
   - _component: page-sections/heroes/hero-center
     eyebrow: ''
@@ -12,7 +15,4 @@ pageSections:
     buttonSections: []
     colorScheme: light
     backgroundColor: base
-description: >-
-  Read our latest articles and insights on web development, design, and
-  technology.
 ---
