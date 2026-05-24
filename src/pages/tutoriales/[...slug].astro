@@ -17,6 +17,7 @@ const mdxComponents: Record<string, any> = {};
 Object.entries(componentImports).forEach(([path, module]) => {
   const fileName = path.split("/").pop()!.replace(".astro", "");
   mdxComponents[fileName] = (module as any).default;
+
 });
 
 export async function getStaticPaths() {
@@ -26,6 +27,7 @@ export async function getStaticPaths() {
     const slug = tutorial.id.replace(/\.mdx?$/, "");
     return { params: { slug }, props: { tutorial } };
   });
+
 }
 
 interface Props {

@@ -22,6 +22,7 @@ for (const tutorial of allTutorials) {
 }
 
 const standalones = seriesMap.get("__standalone__") ?? [];
+
 seriesMap.delete("__standalone__");
 
 const difficultyColors: Record<string, string> = {
