@@ -1,0 +1,155 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Page from "@layouts/Page.astro";
+import CustomSection from "@page-sections/builders/custom-section/CustomSection.astro";
+import Card from "@wrappers/card/Card.astro";
+import Grid from "@wrappers/grid/Grid.astro";
+import GridItem from "@wrappers/grid/GridItem.astro";
+import { getCollection } from "astro:content";
+
+const allTutorials = (await getCollection("tutorials")).sort(
+  (a, b) => (a.data.part ?? 0) - (b.data.part ?? 0)
+);
+
+// Agrupar por serie; tutoriales sin serie van a "standalone"
+const seriesMap = new Map<string, typeof allTutorials>();
+
+for (const tutorial of allTutorials) {
+  const key = tutorial.data.series ?? "__standalone__";
+  if (!seriesMap.has(key)) seriesMap.set(key, []);
+  seriesMap.get(key)!.push(tutorial);
+}
+
+const standalones = seriesMap.get("__standalone__") ?? [];
+seriesMap.delete("__standalone__");
+
+const difficultyColors: Record<string, string> = {
+  principiante: "var(--green-forest-muted)",
+  intermedio: "var(--yellow-dark)",
+  avanzado: "var(--red-dark)",
+};
+---
+
+<Page title="Tutoriales" description="Tutoriales paso a paso sobre tecnología, IA y desarrollo.">
+  <CustomSection
+    maxContentWidth="2xl"
+    paddingHorizontal="lg"
+    paddingVertical="4xl"
+    colorScheme="inherit"
+    backgroundColor="base"
+  >
+    <Heading level="h1" size="3xl" style="margin-bottom: var(--spacing-2xl);">
+      Tutoriales
+    </Heading>
+
+    {
+      Array.from(seriesMap.entries()).map(([seriesName, parts]) => (
+        <section style="margin-bottom: var(--spacing-3xl);">
+          <Heading level="h2" size="xl" style="margin-bottom: var(--spacing-lg); border-bottom: 2px solid var(--color-brand); padding-bottom: var(--spacing-sm);">
+            {seriesName}
+          </Heading>
+          <Grid gap="lg" layout="start" minItemWidth="280" maxItemWidth="360">
+            {parts.map((tutorial) => {
+              const slug = tutorial.id.replace(/\.mdx?$/, "");
+              const difficultyColor = tutorial.data.difficulty
+                ? difficultyColors[tutorial.data.difficulty]
+                : undefined;
+
+              return (
+                <GridItem>
+                  <Card
+                    link={`/tutoriales/${slug}`}
+                    rounded={true}
+                    border={true}
+                    paddingVertical="lg"
+                    paddingHorizontal="lg"
+                  >
+                    <div style="display: flex; gap: var(--spacing-sm); align-items: center; margin-bottom: var(--spacing-sm); flex-wrap: wrap;">
+                      {tutorial.data.part && (
+                        <span style="font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); color: var(--color-text-muted);">
+                          Parte {tutorial.data.part}
+                        </span>
+                      )}
+                      {tutorial.data.difficulty && (
+                        <span
+                          style={`font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); color: ${difficultyColor}; text-transform: capitalize;`}
+                        >
+                          {tutorial.data.difficulty}
+                        </span>
+                      )}
+                      {tutorial.data.duration && (
+                        <span style="font-size: var(--font-size-xs); color: var(--color-text-muted);">
+                          {tutorial.data.duration}
+                        </span>
+                      )}
+                    </div>
+                    <Heading level="h3" size="md" style="margin-bottom: var(--spacing-sm); margin-top: 0;">
+                      {tutorial.data.title}
+                    </Heading>
+                    <SimpleText size="sm" style="color: var(--color-text-muted); margin-top: 0;">
+                      {tutorial.data.description}
+                    </SimpleText>
+                  </Card>
+                </GridItem>
+              );
+            })}
+          </Grid>
+        </section>
+      ))
+    }
+
+    {
+      standalones.length > 0 && (
+        <section>
+          {seriesMap.size > 0 && (
+            <Heading level="h2" size="xl" style="margin-bottom: var(--spacing-lg); border-bottom: 2px solid var(--color-brand); padding-bottom: var(--spacing-sm);">
+              Otros tutoriales
+            </Heading>
+          )}
+          <Grid gap="lg" layout="start" minItemWidth="280" maxItemWidth="360">
+            {standalones.map((tutorial) => {
+              const slug = tutorial.id.replace(/\.mdx?$/, "");
+              const difficultyColor = tutorial.data.difficulty
+                ? difficultyColors[tutorial.data.difficulty]
+                : undefined;
+
+              return (
+                <GridItem>
+                  <Card
+                    link={`/tutoriales/${slug}`}
+                    rounded={true}
+                    border={true}
+                    paddingVertical="lg"
+                    paddingHorizontal="lg"
+                  >
+                    <div style="display: flex; gap: var(--spacing-sm); align-items: center; margin-bottom: var(--spacing-sm); flex-wrap: wrap;">
+                      {tutorial.data.difficulty && (
+                        <span
+                          style={`font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); color: ${difficultyColor}; text-transform: capitalize;`}
+                        >
+                          {tutorial.data.difficulty}
+                        </span>
+                      )}
+                      {tutorial.data.duration && (
+                        <span style="font-size: var(--font-size-xs); color: var(--color-text-muted);">
+                          {tutorial.data.duration}
+                        </span>
+                      )}
+                    </div>
+                    <Heading level="h3" size="md" style="margin-bottom: var(--spacing-sm); margin-top: 0;">
+                      {tutorial.data.title}
+                    </Heading>
+                    <SimpleText size="sm" style="color: var(--color-text-muted); margin-top: 0;">
+                      {tutorial.data.description}
+                    </SimpleText>
+                  </Card>
+                </GridItem>
+              );
+            })}
+          </Grid>
+        </section>
+      )
+    }
+  </CustomSection>
+</Page>

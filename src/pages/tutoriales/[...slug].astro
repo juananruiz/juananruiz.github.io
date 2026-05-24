@@ -1,0 +1,203 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Page from "@layouts/Page.astro";
+import CustomSection from "@page-sections/builders/custom-section/CustomSection.astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+
+const buildingBlocksImports = import.meta.glob("../../components/building-blocks/**/*.astro", {
+  eager: true,
+});
+const pageSectionsImports = import.meta.glob("../../components/page-sections/**/*.astro", {
+  eager: true,
+});
+const componentImports = { ...buildingBlocksImports, ...pageSectionsImports };
+const mdxComponents: Record<string, any> = {};
+
+Object.entries(componentImports).forEach(([path, module]) => {
+  const fileName = path.split("/").pop()!.replace(".astro", "");
+  mdxComponents[fileName] = (module as any).default;
+});
+
+export async function getStaticPaths() {
+  const tutorials = await getCollection("tutorials");
+
+  return tutorials.map((tutorial: CollectionEntry<"tutorials">) => {
+    const slug = tutorial.id.replace(/\.mdx?$/, "");
+    return { params: { slug }, props: { tutorial } };
+  });
+}
+
+interface Props {
+  tutorial: CollectionEntry<"tutorials">;
+}
+
+const { tutorial } = Astro.props;
+const { Content } = await render(tutorial);
+
+const date = tutorial.data.date.toLocaleDateString("es-ES", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+// Navegación entre partes de la misma serie
+let prevPart: CollectionEntry<"tutorials"> | null = null;
+let nextPart: CollectionEntry<"tutorials"> | null = null;
+
+if (tutorial.data.series && tutorial.data.part !== undefined) {
+  const seriesParts = (await getCollection("tutorials"))
+    .filter((t) => t.data.series === tutorial.data.series)
+    .sort((a, b) => (a.data.part ?? 0) - (b.data.part ?? 0));
+
+  const currentIndex = seriesParts.findIndex((t) => t.id === tutorial.id);
+
+  if (currentIndex > 0) prevPart = seriesParts[currentIndex - 1];
+  if (currentIndex < seriesParts.length - 1) nextPart = seriesParts[currentIndex + 1];
+}
+---
+
+<Page title={tutorial.data.title} description={tutorial.data.description}>
+  <CustomSection
+    maxContentWidth="xl"
+    paddingHorizontal="lg"
+    paddingVertical="4xl"
+    colorScheme="inherit"
+    backgroundColor="base"
+    class="tutorial-container"
+  >
+    {
+      tutorial.data.series && (
+        <SimpleText
+          size="sm"
+          style="color: var(--color-brand); font-weight: var(--font-weight-semibold); margin-bottom: var(--spacing-xs);"
+        >
+          <a href="/tutoriales/" style="color: inherit; text-decoration: none;">Tutoriales</a>
+          {" › "}
+          {tutorial.data.series}
+          {tutorial.data.part && ` — Parte ${tutorial.data.part}`}
+        </SimpleText>
+      )
+    }
+
+    <Heading level="h1" size="2xl" style="margin-bottom: var(--spacing-xs);">
+      {tutorial.data.title}
+    </Heading>
+
+    <SimpleText
+      size="sm"
+      style="color: var(--color-text-muted); margin-bottom: var(--spacing-xl);"
+    >
+      {date} • {tutorial.data.author}
+      {tutorial.data.difficulty && ` • ${tutorial.data.difficulty}`}
+      {tutorial.data.duration && ` • ${tutorial.data.duration}`}
+    </SimpleText>
+
+    <div class="tutorial-content">
+      <Content components={mdxComponents} />
+    </div>
+
+    {
+      (prevPart || nextPart) && (
+        <nav class="series-nav" aria-label="Navegación de la serie">
+          <div class="series-nav-inner">
+            {prevPart ? (
+              <a href={`/tutoriales/${prevPart.id.replace(/\.mdx?$/, "")}`} class="nav-link nav-prev">
+                <span class="nav-label">← Parte anterior</span>
+                <span class="nav-title">{prevPart.data.title}</span>
+              </a>
+            ) : (
+              <span />
+            )}
+            {nextPart ? (
+              <a href={`/tutoriales/${nextPart.id.replace(/\.mdx?$/, "")}`} class="nav-link nav-next">
+                <span class="nav-label">Siguiente parte →</span>
+                <span class="nav-title">{nextPart.data.title}</span>
+              </a>
+            ) : (
+              <span />
+            )}
+          </div>
+        </nav>
+      )
+    }
+  </CustomSection>
+</Page>
+
+<style is:global>
+  .tutorial-container.custom-section > .outer-content > .content {
+    padding-bottom: 0 !important;
+  }
+
+  .tutorial-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 70ch) minmax(0, 1fr);
+    margin-top: var(--spacing-xl);
+  }
+
+  .tutorial-content > * {
+    grid-column: 2;
+  }
+
+  .tutorial-content > .wide,
+  .tutorial-content > pre,
+  .tutorial-content > .image {
+    grid-column: 1 / -1;
+  }
+
+  .tutorial-content > h1,
+  .tutorial-content > h2,
+  .tutorial-content > h3,
+  .tutorial-content > h4 {
+    margin-bottom: 0;
+    margin-top: 1.5rem;
+  }
+
+  .tutorial-content > .astro-code {
+    margin-block: var(--spacing-xl);
+  }
+
+  .series-nav {
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .series-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+  }
+
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    max-width: 45%;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: var(--color-brand);
+    }
+  }
+
+  .nav-next {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .nav-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-brand);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .nav-title {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+</style>
