@@ -1,8 +1,8 @@
 {
-  "name": "Astro Component Starter",
-  "url": "https://example.com",
-  "description": "",
-  "logoSource": "/images/logo.svg",
-  "titleFormat": "{title} | Astro Component Starter",
-  "twitterHandle": "@yourusername"
+  "name": "Juanan Ruiz Blog",
+  "url": "https://juananruiz.es",
+  "description": "Un blog sobre desarrollo, inteligencia artificial y la vida misma",
+  "logoSource": "/images/logo-juananruiz.svg",
+  "titleFormat": "{title} | Juanan Ruiz",
+  "twitterHandle": "@juananruiz"
 }

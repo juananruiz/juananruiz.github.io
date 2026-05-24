@@ -5,7 +5,7 @@ description: Build fast, customizable Astro sites with a modern component starte
 pageSections:
   - _component: page-sections/heroes/hero-center
     eyebrow:
-    heading: The Astro Component Starter for building any site
+    heading: La página web de Juanan Ruiz
     subtext: >-
       Built on web fundamentals. Easy to customize, fast to use, and simple to
       maintain.
@@ -129,7 +129,7 @@ pageSections:
         iconName: paint-brush
         iconColor: pink
     colorScheme: inherit
-    backgroundColor: surface
+    backgroundColor: green
     align: center
   - _component: page-sections/ctas/cta-center
     heading: Ready to start building?

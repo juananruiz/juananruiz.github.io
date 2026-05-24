@@ -2,9 +2,9 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --color-brand: var(--gray-12);
-  --color-brand-muted: var(--gray-9);
-  --color-brand-subtle: var(--gray-7);
+  --color-brand: var(--green-forest-deep);
+  --color-brand-muted: var(--green-forest);
+  --color-brand-subtle: var(--green-forest-muted);
   --color-brand-on: var(--gray-0);
 
   --color-text: var(--gray-10);

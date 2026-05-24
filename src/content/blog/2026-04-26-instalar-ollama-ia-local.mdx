@@ -3,6 +3,7 @@ _schema: default
 title: Instalar Ollama y tu IA en local.
 date: 2026-04-26T19:00:00Z
 author: Juanan Ruiz
+description: Explica la instalación de Ollama en Mac OS, Windows y Linux, la descarga de modelos en local y los usos posibles
 image: /src/assets/images/instalar-ollama-ia-local/
 tags:
   - Ollama
@@ -104,13 +105,13 @@ También tiene interfaz gráfica para el escritorio.
 
 Independientemente del sistema, abre una terminal nueva y escribe:
 
-```terminal
+```bash
 ollama --version
 ```
 
 Verás algo parecido a esto:
 
-```terminal
+```bash
 ollama version is 0.5.7
 ```
 
@@ -124,13 +125,13 @@ Aquí es donde empieza lo divertido. Te recomiendo dos modelos para empezar.
 
 Este es el que arranco yo cuando quiero probar algo rápido. Pesa **2 GB** y corre cómodamente en cualquier portátil con 8 GB de RAM.
 
-```terminal
+```bash
 ollama pull llama3.2:3b
 ```
 
 Verás algo así mientras descarga:
 
-```terminal
+```bash
 pulling manifest
 pulling dde5aa3fc5ff... 100% ▕████████████████▏ 2.0 GB
 pulling 966de95ca8a6... 100% ▕████████████████▏ 1.4 KB
@@ -147,7 +148,7 @@ success
 
 Cuando tu portátil tiene 16 GB o más, merece la pena dar el salto a un modelo de 9B parámetros. Qwen 3.5 me ha sorprendido especialmente en tareas en español y razonamiento estructurado.
 
-```terminal
+```bash
 ollama pull qwen3.5:9b
 ```
 
@@ -155,13 +156,13 @@ Pesa **6.6 GB** y la calidad de las respuestas es notablemente superior al de 4B
 
 ## Tu primer prompt
 
-```terminal
+```bash
 ollama run llama3.2:3b
 ```
 
 Te queda un prompt interactivo:
 
-```terminal
+```bash
 >>> Resume en tres puntos el ciclo del agua.
 1. El agua se evapora desde océanos, ríos y lagos por el calor del sol.
 2. El vapor sube, se enfría y se condensa formando nubes.

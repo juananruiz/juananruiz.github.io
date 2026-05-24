@@ -1,20 +1,25 @@
 {
-  "logoSource": "/images/logo.svg",
-  "logoAlt": "Logo",
+  "logoSource": "/images/logo-juananruiz.svg",
+  "logoAlt": "Juanan Ruiz",
   "navData": [
     {
-      "name": "Home",
+      "name": "Inicio",
       "path": "/",
       "children": []
     },
     {
-      "name": "Why",
+      "name": "De que voy",
       "path": "/why/",
       "children": []
     },
     {
       "name": "Blog",
       "path": "/blog/",
+      "children": []
+    },
+    {
+      "name": "Tutoriales",
+      "path": "/tutoriales/",
       "children": []
     }
   ],

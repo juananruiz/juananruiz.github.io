@@ -1,13 +1,13 @@
 {
   "logoSource": "/images/logo.svg",
-  "logoAlt": "Logo",
+  "logoAlt": "Juanan Ruiz",
   "links": [
     {
-      "name": "Home",
+      "name": "Inicio",
       "path": "/"
     },
     {
-      "name": "Why",
+      "name": "De que voy",
       "path": "/why/"
     },
     {
@@ -18,16 +18,16 @@
   "socials": [
     {
       "icon": "social/github",
-      "link": "https://github.com"
+      "link": "https://github.com/juananruiz"
     },
     {
       "icon": "social/x",
-      "link": "https://twitter.com"
+      "link": "https://twitter.com/juananruiz"
     },
     {
       "icon": "social/linkedin",
-      "link": "https://linkedin.com"
+      "link": "https://linkedin.com/juananruiz"
     }
   ],
-  "footerText": "© 2026 All rights reserved."
+  "footerText": "© 2026 Contenido libre. No me reservo ningún derecho."
 }

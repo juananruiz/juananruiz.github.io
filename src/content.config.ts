@@ -100,9 +100,28 @@ const blogCollection = defineCollection({
   schema: blogPostSchema,
 });
 
+const tutorialSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  date: z.coerce.date(),
+  author: z.string().default("Juanan Ruiz"),
+  series: z.string().optional(),
+  part: z.number().optional(),
+  difficulty: z.enum(["principiante", "intermedio", "avanzado"]).optional(),
+  duration: z.string().optional(),
+  tags: z.array(z.string()).default([]),
+  image: z.string().optional(),
+});
+
+const tutorialsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/tutorials" }),
+  schema: tutorialSchema,
+});
+
 export const collections = {
   pages: pagesCollection,
   "docs-pages": docsPagesCollection,
   "docs-components": docsComponentsCollection,
   blog: blogCollection,
+  tutorials: tutorialsCollection,
 };
