@@ -59,7 +59,10 @@ if (tutorial.data.series && tutorial.data.part !== undefined) {
 }
 ---
 
-<Page title={tutorial.data.title} description={tutorial.data.description}>
+<Page
+  title={tutorial.data.title}
+  description={tutorial.data.description}
+>
   <CustomSection
     maxContentWidth="xl"
     paddingHorizontal="lg"
@@ -74,7 +77,12 @@ if (tutorial.data.series && tutorial.data.part !== undefined) {
           size="sm"
           style="color: var(--color-brand); font-weight: var(--font-weight-semibold); margin-bottom: var(--spacing-xs);"
         >
-          <a href="/tutoriales/" style="color: inherit; text-decoration: none;">Tutoriales</a>
+          <a
+            href="/tutoriales/"
+            style="color: inherit; text-decoration: none;"
+          >
+            Tutoriales
+          </a>
           {" › "}
           {tutorial.data.series}
           {tutorial.data.part && ` — Parte ${tutorial.data.part}`}
@@ -82,7 +90,11 @@ if (tutorial.data.series && tutorial.data.part !== undefined) {
       )
     }
 
-    <Heading level="h1" size="2xl" style="margin-bottom: var(--spacing-xs);">
+    <Heading
+      level="h1"
+      size="2xl"
+      style="margin-bottom: var(--spacing-xs);"
+    >
       {tutorial.data.title}
     </Heading>
 
@@ -101,10 +113,16 @@ if (tutorial.data.series && tutorial.data.part !== undefined) {
 
     {
       (prevPart || nextPart) && (
-        <nav class="series-nav" aria-label="Navegación de la serie">
+        <nav
+          class="series-nav"
+          aria-label="Navegación de la serie"
+        >
           <div class="series-nav-inner">
             {prevPart ? (
-              <a href={`/tutoriales/${prevPart.id.replace(/\.mdx?$/, "")}`} class="nav-link nav-prev">
+              <a
+                href={`/tutoriales/${prevPart.id.replace(/\.mdx?$/, "")}`}
+                class="nav-link nav-prev"
+              >
                 <span class="nav-label">← Parte anterior</span>
                 <span class="nav-title">{prevPart.data.title}</span>
               </a>
@@ -112,7 +130,10 @@ if (tutorial.data.series && tutorial.data.part !== undefined) {
               <span />
             )}
             {nextPart ? (
-              <a href={`/tutoriales/${nextPart.id.replace(/\.mdx?$/, "")}`} class="nav-link nav-next">
+              <a
+                href={`/tutoriales/${nextPart.id.replace(/\.mdx?$/, "")}`}
+                class="nav-link nav-next"
+              >
                 <span class="nav-label">Siguiente parte →</span>
                 <span class="nav-title">{nextPart.data.title}</span>
               </a>

@@ -33,7 +33,10 @@ const difficultyColors: Record<string, string> = {
 };
 ---
 
-<Page title="Tutoriales" description="Tutoriales paso a paso sobre tecnología, IA y desarrollo.">
+<Page
+  title="Tutoriales"
+  description="Tutoriales paso a paso sobre tecnología, IA y desarrollo."
+>
   <CustomSection
     maxContentWidth="2xl"
     paddingHorizontal="lg"
@@ -41,17 +44,30 @@ const difficultyColors: Record<string, string> = {
     colorScheme="inherit"
     backgroundColor="base"
   >
-    <Heading level="h1" size="3xl" style="margin-bottom: var(--spacing-2xl);">
+    <Heading
+      level="h1"
+      size="3xl"
+      style="margin-bottom: var(--spacing-2xl);"
+    >
       Tutoriales
     </Heading>
 
     {
       Array.from(seriesMap.entries()).map(([seriesName, parts]) => (
         <section style="margin-bottom: var(--spacing-3xl);">
-          <Heading level="h2" size="xl" style="margin-bottom: var(--spacing-lg); border-bottom: 2px solid var(--color-brand); padding-bottom: var(--spacing-sm);">
+          <Heading
+            level="h2"
+            size="xl"
+            style="margin-bottom: var(--spacing-lg); border-bottom: 2px solid var(--color-brand); padding-bottom: var(--spacing-sm);"
+          >
             {seriesName}
           </Heading>
-          <Grid gap="lg" layout="start" minItemWidth="280" maxItemWidth="360">
+          <Grid
+            gap="lg"
+            layout="start"
+            minItemWidth="280"
+            maxItemWidth="360"
+          >
             {parts.map((tutorial) => {
               const slug = tutorial.id.replace(/\.mdx?$/, "");
               const difficultyColor = tutorial.data.difficulty
@@ -86,10 +102,17 @@ const difficultyColors: Record<string, string> = {
                         </span>
                       )}
                     </div>
-                    <Heading level="h3" size="md" style="margin-bottom: var(--spacing-sm); margin-top: 0;">
+                    <Heading
+                      level="h3"
+                      size="md"
+                      style="margin-bottom: var(--spacing-sm); margin-top: 0;"
+                    >
                       {tutorial.data.title}
                     </Heading>
-                    <SimpleText size="sm" style="color: var(--color-text-muted); margin-top: 0;">
+                    <SimpleText
+                      size="sm"
+                      style="color: var(--color-text-muted); margin-top: 0;"
+                    >
                       {tutorial.data.description}
                     </SimpleText>
                   </Card>
@@ -105,11 +128,20 @@ const difficultyColors: Record<string, string> = {
       standalones.length > 0 && (
         <section>
           {seriesMap.size > 0 && (
-            <Heading level="h2" size="xl" style="margin-bottom: var(--spacing-lg); border-bottom: 2px solid var(--color-brand); padding-bottom: var(--spacing-sm);">
+            <Heading
+              level="h2"
+              size="xl"
+              style="margin-bottom: var(--spacing-lg); border-bottom: 2px solid var(--color-brand); padding-bottom: var(--spacing-sm);"
+            >
               Otros tutoriales
             </Heading>
           )}
-          <Grid gap="lg" layout="start" minItemWidth="280" maxItemWidth="360">
+          <Grid
+            gap="lg"
+            layout="start"
+            minItemWidth="280"
+            maxItemWidth="360"
+          >
             {standalones.map((tutorial) => {
               const slug = tutorial.id.replace(/\.mdx?$/, "");
               const difficultyColor = tutorial.data.difficulty
@@ -139,10 +171,17 @@ const difficultyColors: Record<string, string> = {
                         </span>
                       )}
                     </div>
-                    <Heading level="h3" size="md" style="margin-bottom: var(--spacing-sm); margin-top: 0;">
+                    <Heading
+                      level="h3"
+                      size="md"
+                      style="margin-bottom: var(--spacing-sm); margin-top: 0;"
+                    >
                       {tutorial.data.title}
                     </Heading>
-                    <SimpleText size="sm" style="color: var(--color-text-muted); margin-top: 0;">
+                    <SimpleText
+                      size="sm"
+                      style="color: var(--color-text-muted); margin-top: 0;"
+                    >
                       {tutorial.data.description}
                     </SimpleText>
                   </Card>
