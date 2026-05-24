@@ -17,6 +17,7 @@ const seriesMap = new Map<string, typeof allTutorials>();
 
 for (const tutorial of allTutorials) {
   const key = tutorial.data.series ?? "__standalone__";
+
   if (!seriesMap.has(key)) seriesMap.set(key, []);
   seriesMap.get(key)!.push(tutorial);
 }
